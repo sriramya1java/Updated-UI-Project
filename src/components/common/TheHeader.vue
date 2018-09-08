@@ -14,7 +14,7 @@
         color="dark"
         flat
         value="table"
-        to="/updatedNotesList">
+        to="/notes">
         <span>Notes</span>
       </v-btn>
       </v-toolbar-title>

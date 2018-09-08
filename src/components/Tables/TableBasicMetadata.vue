@@ -130,6 +130,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
+  name: 'TableBasic',
   data () {
     return {
       tableUniverse: [],

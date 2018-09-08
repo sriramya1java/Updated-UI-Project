@@ -1,9 +1,4 @@
 <template>
-  <!-- <div class="hello">
-    <h5>{{ msg }}, your id is {{ id }}</h5>
-    <h1 v-if="id === 'new'">This is create table page</h1>
-    <h1 v-else>this is edit table page</h1>
-  </div> -->
   <v-container fluid>
     <v-toolbar dense>
       <v-toolbar-title>
@@ -29,13 +24,15 @@
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
-          <v-card-text><table-notes></table-notes></v-card-text>
+          <v-card-text>
+            <table-notes></table-notes>
+          </v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            <dimensions></dimensions>
+            <table-dimensions></table-dimensions>
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -47,14 +44,14 @@
   import router from '../../router/index'
   import TableBasicMetadata from './TableBasicMetadata.vue'
   import TableNotes from './TableNotes.vue'
-  import Dimensions from './Dimensions.vue'
+  import TableDimensions from './TableDimensions.vue'
   /* import { mapGetters } from 'vuex' */
   export default {
     name: 'CreateEditTable',
     components: {
       TableBasicMetadata,
       TableNotes,
-      Dimensions
+      TableDimensions
     },
     data () {
       return {

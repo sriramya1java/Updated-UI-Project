@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import UpdatedTablesList from '@/components/Tables/UpdatedTablesList'
+import Tables from '@/components/Tables/Tables'
 import CreateEditTable from '@/components/Tables/CreateEditTable'
-import UpdatedNotesList from '@/components/Notes/UpdatedNotesList'
+import Notes from '@/components/Notes/Notes'
 import CreateEditNote from '@/components/Notes/CreateEditNote'
+/* import TableBasic from '@/components/Tables/TableBasicMetadata'
+import TableNotes from '@/components/Tables/TableNotes'
+import TableDimensions from '@/components/Tables/TableDimensions' */
 
 Vue.use(Router)
 
@@ -12,45 +15,47 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'UpdatedTablesList',
-      component: UpdatedTablesList,
-      meta: {
-        breadCrumb: 'Tables'
-      },
-      children: [
-        {
-          path: 'edittable/:tableString',
-          name: 'edittable',
-          props: true,
-          component: CreateEditTable,
-          meta: {
-            breadCrumb: 'Table Metadata'
-          }
-        }
-      ]
+      redirect: '/tables'
     },
     {
-      path: '/updatedNotesList',
-      name: 'UpdatedNotesList',
-      component: UpdatedNotesList,
-      meta: {
-        breadCrumb: 'Notes'
-      },
-      children: [
-        {
-          path: 'editnote/:noteString',
-          name: 'editnote',
-          props: true,
-          component: CreateEditNote,
-          meta: {
-            breadCrumb: 'Note Metadata'
-          }
-        }
-      ]
+      path: '/tables',
+      name: 'Tables',
+      component: Tables
     },
     {
-      path: '*',
-      redirect: '/'
+      path: '/tables/edittable/:tableString',
+      name: 'edittable',
+      props: true,
+      component: CreateEditTable/* ,
+      redirect: '/tables/tablebasic',
+      children: [
+        {
+          path: '/tables/tablebasic',
+          name: 'tablebasic',
+          component: TableBasic
+        },
+        {
+          path: '/tables/tablenotes',
+          name: 'tablenotes',
+          component: TableNotes
+        },
+        {
+          path: '/tables/tabledimensions',
+          name: 'tabledimensions',
+          component: TableDimensions
+        }
+      ] */
+    },
+    {
+      path: '/notes',
+      name: 'Notes',
+      component: Notes
+    },
+    {
+      path: '/notes/editnote/:noteString',
+      name: 'editnote',
+      props: true,
+      component: CreateEditNote
     }
   ]
 })
