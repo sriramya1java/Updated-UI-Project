@@ -5,7 +5,7 @@ Vue.use(VueResource)
 // initial state
 /* function initialStatus () {
   return {
-    dimensionsList: [],
+    dimensionsList: [{'editable': true, 'label': 'Age Group', 'id': 'AGEGROUP', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Date', 'id': 'DATE_', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Description of DATE values', 'id': 'DATE_DESC', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Hispanic Origin', 'id': 'HISP', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Race', 'id': 'RACE', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Sex', 'id': 'SEX', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Universe', 'id': 'UNIVERSE', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Measure', 'id': 'MEASURE', 'type': 'MEASURE'}, {'editable': false, 'label': 'Gct', 'id': 'GCT', 'type': 'GCT'}],
     verticalDimensionsList: [],
     horizontalDimensionsList: [],
     outsideDimensionsList: [],
@@ -24,10 +24,10 @@ const state = {
   // verticalDimensionsList: initialState().verticalDimensionsList,
   // horizontalDimensionsList: initialState().horizontalDimensionsList,
   // outsideDimensionsList: initialState().outsideDimensionsList,
-    // dimensionsSelected: initialState().dimensionsSelected,
-    // verticalDimensionsSelected: initialState().verticalDimensionsSelected,
-    // outsideDimensionsSelected: initialState().outsideDimensionsSelected,
-    // horizontalDimensionsSelected: initialState().horizontalDimensionsSelected
+  // dimensionsSelected: initialState().dimensionsSelected,
+  // verticalDimensionsSelected: initialState().verticalDimensionsSelected,
+  // outsideDimensionsSelected: initialState().outsideDimensionsSelected,
+  // horizontalDimensionsSelected: initialState().horizontalDimensionsSelected
   dimensionsList: [{'editable': true, 'label': 'Age Group', 'id': 'AGEGROUP', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Date', 'id': 'DATE_', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Description of DATE values', 'id': 'DATE_DESC', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Hispanic Origin', 'id': 'HISP', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Race', 'id': 'RACE', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Sex', 'id': 'SEX', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Universe', 'id': 'UNIVERSE', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Measure', 'id': 'MEASURE', 'type': 'MEASURE'}, {'editable': false, 'label': 'Gct', 'id': 'GCT', 'type': 'GCT'}],
   verticalDimensionsList: [],
   horizontalDimensionsList: [],
@@ -45,18 +45,17 @@ const getters = {
 // actions
 const actions = {
   getDimensionsList ({commit, rootState}) {
-    let rootUrl = process.env.ROOT_API
-    let programId = rootState.tableBasicMetadata.selectedProgram
+    let programId = rootState.tableBasicMetadata.tableObj.selectedProgram
     console.log(rootState.tableBasicMetadata)
-    let componentId = rootState.tableBasicMetadata.selectedComponent
-    let datasetId = rootState.tableBasicMetadata.selectedDataset
+    let componentId = rootState.tableBasicMetadata.tableObj.selectedComponent
+    let datasetId = rootState.tableBasicMetadata.tableObj.selectedDataset
     console.log('---------------api call for the list of dimensions---------')
     console.log(programId)
     console.log(componentId)
     console.log(datasetId)
     if (programId !== '' && componentId !== '' && datasetId !== '') {
       return new Promise((resolve, reject) => {
-        Vue.http.get(rootUrl + '/api/programs/' + programId + '/components/' + componentId + '/datasets/' + datasetId + '/dimensions').then(response => {
+        Vue.http.get('api/programs/' + programId + '/components/' + componentId + '/datasets/' + datasetId + '/dimensions').then(response => {
           commit('NO_DIMENSIONS', false)
           console.log(response)
           resolve(response)
@@ -75,15 +74,9 @@ const actions = {
             commit('SET_ERROR_MESSAGE', e.body.message)
           } else {
             console.log(e.statusText)
-            // commit('SET_ERROR_MESSAGE', 'There is an error retrieving the dimensions')
-          }
-          if (datasetId === 'PEPCHARAGEGROUPS2015') {
-            commit('NO_DIMENSIONS', false)
-            commit('SET_DIMENSIONS', [{'editable': true, 'label': 'Age Group', 'id': 'AGEGROUP', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Date', 'id': 'DATE_', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Description of DATE values', 'id': 'DATE_DESC', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Hispanic Origin', 'id': 'HISP', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Race', 'id': 'RACE', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Sex', 'id': 'SEX', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Universe', 'id': 'UNIVERSE', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Measure', 'id': 'MEASURE', 'type': 'MEASURE'}, {'editable': false, 'label': 'Gct', 'id': 'GCT', 'type': 'GCT'}],)
-          } else {
             commit('SET_ERROR_MESSAGE', 'There is an error retrieving the dimensions')
-            commit('SET_DIMENSIONS', [])
           }
+          commit('SET_DIMENSIONS', state.dimensionsList)
         })
       })
     }

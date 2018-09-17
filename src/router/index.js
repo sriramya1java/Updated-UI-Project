@@ -4,7 +4,8 @@ import Tables from '@/components/Tables/Tables'
 import CreateEditTable from '@/components/Tables/CreateEditTable'
 import Notes from '@/components/Notes/Notes'
 import CreateEditNote from '@/components/Notes/CreateEditNote'
-/* import TableBasic from '@/components/Tables/TableBasicMetadata'
+import TableBasic from '@/components/Tables/TableBasicMetadata'
+/*
 import TableNotes from '@/components/Tables/TableNotes'
 import TableDimensions from '@/components/Tables/TableDimensions' */
 
@@ -26,7 +27,15 @@ export default new Router({
       path: '/tables/edittable/:tableString',
       name: 'edittable',
       props: true,
-      component: CreateEditTable/* ,
+      component: CreateEditTable,
+      children: [
+        {
+          path: '/tablebasic',
+          name: 'tablebasic',
+          component: TableBasic
+        }
+      ]
+      /* ,
       redirect: '/tables/tablebasic',
       children: [
         {

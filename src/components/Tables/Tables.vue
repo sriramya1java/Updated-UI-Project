@@ -8,17 +8,17 @@
       </v-flex>
       <v-flex xs12 class="text-sm-left">
         <v-tooltip top>
-        <v-btn :to="{ name: 'edittable', params: { tableString: 'new' }}" slot="activator">Create a New Table</v-btn>
-        <span>Click to Create a New Table</span>
-      </v-tooltip>
+          <v-btn :to="{ name: 'edittable', params: { datasetString: 'new', tableString: 'new' }, query: {debug: true }}" slot="activator" @click="createNewTable">Create a New Table</v-btn>
+          <span>Click to Create a New Table</span>
+        </v-tooltip>
       </v-flex>
       <v-flex xs12 text-center class="pa-2">
         <ag-grid-vue style="width: 100%; height: 200px;"
-                         class="ag-theme-balham"
-                         :gridOptions="gridOptions"
-                         :rowDataChanged="onRowDataChanged"
-                         :rowSelected="onRowSelected"
-                         :rowData="tablesList">
+                     class="ag-theme-balham"
+                     :gridOptions="gridOptions"
+                     :rowDataChanged="onRowDataChanged"
+                     :rowSelected="onRowSelected"
+                     :rowData="tablesList">
         </ag-grid-vue>
       </v-flex>
       <v-flex xs12 class="text-xs-right">
@@ -52,9 +52,9 @@
 <script>
   import {AgGridVue} from 'ag-grid-vue'
   import Vue from 'vue'
-  import VueRouter from 'vue-router'
   import { mapGetters } from 'vuex'
-  const router = new VueRouter()
+  import DeleteTable from './DeleteTable.vue'
+  import EditTable from './EditTable.vue'
   export default {
     name: 'Tables',
     data () {
@@ -75,24 +75,13 @@
     },
     components: {
       'ag-grid-vue': AgGridVue,
-      /* 'edit-component': {
-        router,
-        template: '<router-link to="/edittable">edit table</router-link>'
-      }, */
-      'delete-component': {
-        router,
-        template: '<a @click="deleteTable"><i class="fa fa-trash"></i></a>',
-        methods: {
-          deleteTable () {
-            confirm('Do you want to delete the table')
-          }
-        }
-      }
+      'delete-component': DeleteTable,
+      'edit-component': EditTable
     },
     methods: {
       createColDefs () {
         return [
-          {headerName: 'Table ID', field: 'edit', cellRenderer: tableCellRenderer, cellStyle: {textAlign: 'left'}, icons: {sortAscending: '<i class="fa fa-sort-alpha-asc"/>', sortDescending: '<i class="fa fa-sort-alpha-desc"/>'}},
+          {headerName: 'Table ID', field: 'edit', cellRendererFramework: 'edit-component', cellStyle: {textAlign: 'left'}, icons: {sortAscending: '<i class="fa fa-sort-alpha-asc"/>', sortDescending: '<i class="fa fa-sort-alpha-desc"/>'}},
           {headerName: 'Program', field: 'programString', icons: {sortAscending: '<i class="fa fa-sort-alpha-asc"/>', sortDescending: '<i class="fa fa-sort-alpha-desc"/>'}, cellStyle: {textAlign: 'left'}},
           {headerName: 'Dataset', field: 'datasetString', icons: {sortAscending: '<i class="fa fa-sort-alpha-asc"/>', sortDescending: '<i class="fa fa-sort-alpha-desc"/>'}, cellStyle: {textAlign: 'left'}},
           /* {headerName: 'Table ID', field: 'tableString', icons: {sortAscending: '<i class="fa fa-sort-alpha-asc"/>', sortDescending: '<i class="fa fa-sort-alpha-desc"/>'}, cellStyle: {textAlign: 'left'}}, */
@@ -116,6 +105,9 @@
         } else {
           this.checked = false
         }
+      },
+      createNewTable () {
+        this.$store.dispatch('tables/createNewTable')
       },
       fileDelivery () {
         let tableValues = []
@@ -165,6 +157,7 @@
     created () {
       this.$store.dispatch('tables/getTables')
       this.gridOptions = {
+        rowHeight: 40,
         enableColResize: true,
         enableSorting: true,
         enableFilter: true,
@@ -192,19 +185,10 @@
     beforeCreate: function () {
     }
   }
-  function tableCellRenderer (params) {
-    if (params !== undefined && params !== null) {
-      let aTag = document.createElement('a')
-      let abc = params.data.tableString
-      aTag.setAttribute('href', '#/tables/edittable/' + abc)
-      aTag.innerHTML = abc
-      return aTag
-    }
-  }
 </script>
 <!-- Add "scoped" attribute to limit css to this component only -->
 <style>
   button:disabled {
-    cursor: not allowed;
+    cursor: not-allowed;
   }
 </style>

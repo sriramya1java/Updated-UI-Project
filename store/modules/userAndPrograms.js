@@ -4,7 +4,7 @@ import Vue from 'vue'
 Vue.use(VueResource)
 // initial state
 const state = {
-  programs: ['ACS', 'PEP'],
+  programs: ['PEP', 'ACS'],
   user: 'DEEVI001'
 }
 // getters
@@ -30,8 +30,7 @@ const mutations = {
 // actions
 const actions = {
   getUserAndPrograms ({ commit }) {
-    let rootUrl = process.env.ROOT_API
-    Vue.http.get(rootUrl + '/api/user/details').then(response => {
+    Vue.http.get('api/user/details').then(response => {
       // console.log(response.body.programs)
       // console.log(response.body.id)
       if (response && response.body && response.body.id && response.body.programs.length > 0) {
