@@ -195,6 +195,11 @@
           { icon: 'note', iconClass: 'grey lighten-1 white--text', title: 'Footer Note3' }
         ]
       }
+    },
+    methods: {
+      emit: function () {
+        this.$emit('event_child_tableNotes', true)
+      }
     }
   }
 </script>

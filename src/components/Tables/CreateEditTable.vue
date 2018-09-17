@@ -11,31 +11,31 @@
       </v-toolbar-title>
     </v-toolbar>
     <v-tabs color="grey" dark slider-color="white" class="pt-4 text-transform-none">
-      <v-tab ripple>
+      <v-tab ripple :disabled="this.meta_basic_tab">
         Basics
       </v-tab>
-      <v-tab ripple :disabled="disableNotesTab">
+      <v-tab ripple :disabled="this.meta_header_footer_tab">
         Headnotes/Footnotes
       </v-tab>
-      <v-tab ripple @click="onTabChange()" :disabled="disableDimensionsTab">
+      <v-tab ripple @click="onTabChange()" :disabled="this.meta_dimensions_tab">
         Dimensions
       </v-tab>
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            <table-basic-metadata></table-basic-metadata>
+            <table-basic-metadata v-on:event_child_basic="eventChildBasic"></table-basic-metadata>
           </v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
-          <v-card-text><table-notes></table-notes></v-card-text>
+          <v-card-text><table-notes v-on:event_child_tableNotes="eventChildTableNotes"></table-notes></v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            <dimensions></dimensions>
+            <dimensions v-on:click="eventParent" v-on:event_child_dimensions="eventChildDimensions"></dimensions>
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -61,7 +61,11 @@
         debug: false,
         id: 0,
         msg: 'META2',
-        validation: false
+        validation: false,
+        meta_basic_tab: false,
+        meta_header_footer_tab: false,
+        meta_dimensions_tab: false,
+        isChanged: false
       }
     },
     watch: {
@@ -72,16 +76,27 @@
     created () {
       this.id = this.$route.params.tableString
       // console.log(this.id)
+      this.$on('event_parent', function (id) {
+        console.log('Event from parent component emitted', id)
+      })
     },
     beforeRouteLeave (to, from, next) {
-      const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
-      if (answer) {
+      console.log(to)
+      console.log(from)
+      if (!this.isChanged) {
         next()
       } else {
-        next(false)
+        if (confirm('save Project?')) {
+          next()
+        } else {
+          next(false)
+        }
       }
     },
     methods: {
+      eventParent: function () {
+        this.$emit('event_parent', 'initial')
+      },
       navigate () {
         router.go(-1)
       },
@@ -100,7 +115,54 @@
         this.$store.commit('dimensions/UPDATE_HORIZONTAL_DIMENSIONS_SELECTED', [])
         this.$store.commit('dimensions/UPDATE_OUTSIDE_DIMENSIONS_SELECTED', [])
         // this.$store.dispatch('dimensions/getDimensionsList')
-        this.$store.commit('dimensions/SET_DIMENSIONS', [{'editable': true, 'label': 'Age Group', 'id': 'AGEGROUP', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Date', 'id': 'DATE_', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Description of DATE values', 'id': 'DATE_DESC', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Hispanic Origin', 'id': 'HISP', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Race', 'id': 'RACE', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Sex', 'id': 'SEX', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Universe', 'id': 'UNIVERSE', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Measure', 'id': 'MEASURE', 'type': 'MEASURE'}, {'editable': false, 'label': 'Gct', 'id': 'GCT', 'type': 'GCT'}])
+        this.$store.commit('dimensions/SET_DIMENSIONS', [{
+          'editable': true,
+          'label': 'Age Group',
+          'id': 'AGEGROUP',
+          'type': 'SIMPLE'
+        }, {'editable': true, 'label': 'Date', 'id': 'DATE_', 'type': 'SIMPLE'}, {
+          'editable': true,
+          'label': 'Description of DATE values',
+          'id': 'DATE_DESC',
+          'type': 'SIMPLE'
+        }, {'editable': true, 'label': 'Hispanic Origin', 'id': 'HISP', 'type': 'SIMPLE'}, {
+          'editable': true,
+          'label': 'Race',
+          'id': 'RACE',
+          'type': 'SIMPLE'
+        }, {'editable': true, 'label': 'Sex', 'id': 'SEX', 'type': 'SIMPLE'}, {
+          'editable': true,
+          'label': 'Universe',
+          'id': 'UNIVERSE',
+          'type': 'SIMPLE'
+        }, {'editable': true, 'label': 'Measure', 'id': 'MEASURE', 'type': 'MEASURE'}, {
+          'editable': false,
+          'label': 'Gct',
+          'id': 'GCT',
+          'type': 'GCT'
+        }])
+      },
+      /**
+       * @description To disable and enable all the tab
+       * @param val
+       */
+      enableAndDisableAlltabs (val) {
+        this.meta_basic_tab = val
+        this.meta_header_footer_tab = val
+        this.meta_dimensions_tab = val
+        this.isChanged = val
+      },
+      eventChildBasic: function (val) {
+        console.log('eventChildBasic from child component emitted', val)
+        this.enableAndDisableAlltabs(val)
+      },
+      eventChildDimensions: function (val) {
+        console.log('eventChildDimensions from child component emitted', val)
+        this.enableAndDisableAlltabs(val)
+      },
+      eventChildTableNotes: function (val) {
+        console.log('eventChildTableNotes from child component emitted', val)
+        this.enableAndDisableAlltabs(val)
       }
     },
     computed: {

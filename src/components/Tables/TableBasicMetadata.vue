@@ -176,7 +176,8 @@
         ],
         selectedPresentationalStyleRules: [
           v => !!v || 'Please select a Style'
-        ]
+        ],
+        isInitial: true
       }
     },
     /* gets the list of programs associated with the user */
@@ -187,8 +188,12 @@
       } else {
         // this.$store.dispatch()
       }
+      this.$parent.$on('event_parent', this.setInitValue)
     },
     methods: {
+      setInitValue: function (value) {
+        this.isInitial = value
+      },
       saveTable () {
         this.saveProgress = true
         console.log('saving table')
@@ -208,6 +213,7 @@
           this.$store.commit('createEditTable/SET_DISABLE_DIMENSIONS_TAB', false)
           alert('operation failed ' + error.body.message)
         })
+        this.$emit('event_child_basic', false)
       },
       ...mapActions({
         /* dispatches an action to get the list of components as soon as the user selects a program */
@@ -293,6 +299,15 @@
         set (selectedPresentationalStyle) {
           this.$store.dispatch('tableBasicMetadata/updateSelectedPresentationalStyle', selectedPresentationalStyle)
         }
+      },
+      watcher: function () {
+        return [this.selectedProgram, this.selectedComponent, this.selectedTableUniverse, this.selectedDataset, this.selectedDisplayLabel, this.selectedTableId, this.selectedPresentationalStyle]
+      }
+    },
+    watch: {
+      watcher (val) {
+        console.log('val: ', val)
+        this.$emit('event_child_basic', true)
       }
     }
   }

@@ -32,7 +32,7 @@
       return {
         open: false,
         isClicked: false, // The current node is clicked
-        isHover: false, // The current node is hvoer
+        isHover: false, // The current node is hover
         styleObj: {
           opacity: 1
         },

@@ -199,7 +199,8 @@
         dialog1: false,
         dialog2: false,
         dimensionsSaveDialog: false,
-        dimensionsSaveProgress: false
+        dimensionsSaveProgress: false,
+        isInitial: true
       }
     },
     computed: {
@@ -275,6 +276,17 @@
         set (outsideDimensionsSelected) {
           this.$store.dispatch('dimensions/updateOutsideDimensionsSelected', outsideDimensionsSelected)
         }
+      },
+      watcher: function () {
+        return [this.verticalDimensionsList, this.horizontalDimensionsList, this.outsideDimensionsList]
+      }
+    },
+    watch: {
+      watcher (val) {
+        if (!this.isInitial) {
+          console.log('val: ', val)
+          this.$emit('event_child_dimensions', true)
+        }
       }
     },
     methods: {
@@ -282,10 +294,12 @@
         console.log('clicked dimensions save button')
         this.dimensionsSaveProgress = true
         this.$store.dispatch('dimensions/postDimensionsList')
+        this.$emit('event_child_dimensions', false)
       },
       // methods to move selected dimensions from dimensions list into respective axes list
       multiselect_rightSelected: function (dimensionsSelected, dimensionsList, axesDimensionsList, axes) {
         this.showalert = dimensionsSelected.length === 0
+        this.isInitial = false
         dimensionsSelected.forEach(x => {
           const leftIndex = dimensionsList.findIndex(y => y === x)
           dimensionsList.splice(leftIndex, 1)
@@ -307,6 +321,7 @@
         if (axesDimensionsSelected.length === 0) {
           this.showalert = true
         } else {
+          this.isInitial = false
           this.showalert = false
           axesDimensionsSelected.forEach(x => {
             const rightIndex = axesDimensionsList.findIndex(y => y === x)
@@ -335,6 +350,7 @@
         if (this.verticalDimensionsSelected.length > 1) {
           alert('please select only one dimension')
         } else {
+          this.isInitial = false
           let oldIndex = this.verticalDimensionsList.findIndex(y => y.label === this.verticalDimensionsSelected[0].label)
           if (oldIndex > -1) {
             let newIndex = (oldIndex + positionChange)
@@ -357,6 +373,7 @@
         if (this.horizontalDimensionsSelected.length > 1) {
           alert('please select only one dimension')
         } else {
+          this.isInitial = false
           let oldIndex = this.horizontalDimensionsList.findIndex(y => y.label === this.horizontalDimensionsSelected[0].label)
           if (oldIndex > -1) {
             let newIndex = (oldIndex + positionChange)
@@ -379,6 +396,7 @@
         if (this.outsideDimensionsSelected.length > 1) {
           alert('please select only one dimension')
         } else {
+          this.isInitial = false
           let oldIndex = this.outsideDimensionsList.findIndex(y => y.label === this.outsideDimensionsSelected[0].label)
           if (oldIndex > -1) {
             let newIndex = (oldIndex + positionChange)
@@ -402,7 +420,13 @@
         if (this.outsideDimensionsSelected.length === 1 || this.horizontalDimensionsSelected.length === 1 || this.verticalDimensionsSelected.length === 1) {
           this.$store.dispatch('categories/getCategoriesList', axes)
         }
+      },
+      setInitValue: function (value) {
+        this.isInitial = value
       }
+    },
+    created: function () {
+      this.$parent.$on('event_parent', this.setInitValue)
     }
   }
 </script>
