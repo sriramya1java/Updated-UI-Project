@@ -6,6 +6,7 @@ import tables from './modules/tables'
 import tableBasicMetadata from './modules/tableBasicMetadata'
 import dimensions from './modules/dimensions'
 import categories from './modules/categories'
+import createEditTable from './modules/createEditTable'
 
 Vue.use(Vuex)
 Vue.use(VueResource)
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     tables,
     tableBasicMetadata,
     dimensions,
-    categories
+    categories,
+    createEditTable
   }
 })

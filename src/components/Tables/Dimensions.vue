@@ -230,6 +230,7 @@
       },
       verticalDimensionsSelected: {
         get () {
+          console.log(this.$store.state.dimensions.verticalDimensionsSelected)
           return this.$store.state.dimensions.verticalDimensionsSelected
         },
         set (verticalDimensionsSelected) {
@@ -273,7 +274,7 @@
           this.$store.dispatch('dimensions/updateOutsideDimensionsList', axesDimensionsList)
         }
       },
-      // methods to move selected axes dimensions from dimensions list dimensions list
+      // methods to move selected axes dimensions from dimensions list
       multiselect_leftSelected: function (axesDimensionsSelected, axesDimensionsList, dimensionsList, axes) {
         if (axesDimensionsSelected.length === 0) {
           this.showalert = true

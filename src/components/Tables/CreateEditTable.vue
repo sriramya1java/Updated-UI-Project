@@ -14,10 +14,10 @@
       <v-tab ripple>
         Basics
       </v-tab>
-      <v-tab ripple>
+      <v-tab ripple :disabled="disableNotesTab">
         Headnotes/Footnotes
       </v-tab>
-      <v-tab ripple @click="onTabChange()">
+      <v-tab ripple @click="onTabChange()" :disabled="disableDimensionsTab">
         Dimensions
       </v-tab>
       <v-tab-item>
@@ -107,6 +107,12 @@
         // console.log('------------gets the list of dimensions')
         // console.log(this.$store.state.dimensionsList)
         return this.$store.state.dimensions.dimensionsList
+      },
+      disableNotesTab () {
+        return this.$store.state.createEditTable.disableNotesTab
+      },
+      disableDimensionsTab () {
+        return this.$store.state.createEditTable.disableDimensionsTab
       }
     }
   }

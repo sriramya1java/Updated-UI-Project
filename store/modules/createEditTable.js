@@ -4,10 +4,10 @@ const state = {
 }
 const actions = {}
 const mutations = {
-  SET_DISABLE_NOTES_TAB(state, disableNotesTab) {
+  SET_DISABLE_NOTES_TAB (state, disableNotesTab) {
     state.disableNotesTab = disableNotesTab
   },
-  SET_DISABLE_DIMENSIONS_TAB(state, disableDimensionsTab) {
+  SET_DISABLE_DIMENSIONS_TAB (state, disableDimensionsTab) {
     state.disableDimensionsTab = disableDimensionsTab
   }
 }

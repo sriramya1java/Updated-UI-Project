@@ -202,7 +202,10 @@
         }, (error) => {
           this.saveProgress = false
           this.saveDialog = false
+          this.valid = false
           // console.log(error)
+          this.$store.commit('createEditTable/SET_DISABLE_NOTES_TAB', false)
+          this.$store.commit('createEditTable/SET_DISABLE_DIMENSIONS_TAB', false)
           alert('operation failed ' + error.body.message)
         })
       },
