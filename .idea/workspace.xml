@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="453186a3-66cf-46bc-ade9-81e0c3c28db2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/Tables/CreateEditTable.vue" afterPath="$PROJECT_DIR$/src/components/Tables/CreateEditTable.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/Tables/Dimensions.vue" afterPath="$PROJECT_DIR$/src/components/Tables/Dimensions.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/Tables/TableBasicMetadata.vue" afterPath="$PROJECT_DIR$/src/components/Tables/TableBasicMetadata.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/store/modules/createEditTable.js" afterPath="$PROJECT_DIR$/store/modules/createEditTable.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/store/modules/dimensions.js" afterPath="$PROJECT_DIR$/store/modules/dimensions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/store/store.js" afterPath="$PROJECT_DIR$/store/store.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,55 +14,44 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Dimensions.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/Tables/Dimensions.vue">
+      <file leaf-file-name="tableBasicMetadata.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/store/modules/tableBasicMetadata.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1928">
-              <caret line="38" column="104" lean-forward="true" selection-start-line="38" selection-start-column="104" selection-end-line="38" selection-end-column="104" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TableBasicMetadata.vue" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/Tables/TableBasicMetadata.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-53">
-              <caret line="201" column="23" lean-forward="true" selection-start-line="201" selection-start-column="23" selection-end-line="201" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="createEditTable.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/store/modules/createEditTable.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="28" lean-forward="false" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CreateEditTable.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/Tables/CreateEditTable.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="74" lean-forward="false" selection-start-line="19" selection-start-column="74" selection-end-line="19" selection-end-column="74" />
+            <state relative-caret-position="-466">
+              <caret line="10" column="19" lean-forward="false" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="19" />
               <folding>
-                <element signature="e#1221#1260#0" expanded="true" />
-                <element signature="e#1999#2175#0" expanded="false" />
-                <marker date="1537197857966" expanded="false" signature="3621:3799" ph="/*...*/" />
+                <element signature="e#0#38#0" expanded="true" />
+                <element signature="e#921#2223#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dimensions.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Dimensions.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/Tables/Dimensions.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-572">
+              <caret line="283" column="40" lean-forward="false" selection-start-line="283" selection-start-column="40" selection-end-line="283" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TableBasicMetadata.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/Tables/TableBasicMetadata.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="378">
+              <caret line="147" column="17" lean-forward="true" selection-start-line="125" selection-start-column="8" selection-end-line="147" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dimensions.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/store/modules/dimensions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="30" column="90" lean-forward="false" selection-start-line="30" selection-start-column="90" selection-end-line="30" selection-end-column="90" />
+            <state relative-caret-position="212">
+              <caret line="105" column="55" lean-forward="false" selection-start-line="105" selection-start-column="55" selection-end-line="105" selection-end-column="55" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
                 <element signature="e#100#1108#0" expanded="false" />
@@ -77,14 +61,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="store.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/store/store.js">
+      <file leaf-file-name="Categories.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/Tables/categories/Categories.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="23" lean-forward="true" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
-              <folding>
-                <element signature="e#0#21#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="239">
+              <caret line="56" column="53" lean-forward="true" selection-start-line="56" selection-start-column="53" selection-end-line="56" selection-end-column="53" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -103,6 +85,7 @@
       <find>selectedProgram</find>
       <find>Geo</find>
       <find>valid</find>
+      <find>btn</find>
     </findStrings>
     <replaceStrings>
       <replace>'</replace>
@@ -133,12 +116,12 @@
         <option value="$PROJECT_DIR$/store/modules/userAndPrograms.js" />
         <option value="$PROJECT_DIR$/store/modules/tableBasicMetadata.js" />
         <option value="$PROJECT_DIR$/store/modules/tables.js" />
-        <option value="$PROJECT_DIR$/store/modules/dimensions.js" />
-        <option value="$PROJECT_DIR$/src/components/Tables/Dimensions.vue" />
         <option value="$PROJECT_DIR$/store/modules/createEditTable.js" />
         <option value="$PROJECT_DIR$/store/store.js" />
         <option value="$PROJECT_DIR$/src/components/Tables/CreateEditTable.vue" />
         <option value="$PROJECT_DIR$/src/components/Tables/TableBasicMetadata.vue" />
+        <option value="$PROJECT_DIR$/src/components/Tables/Dimensions.vue" />
+        <option value="$PROJECT_DIR$/store/modules/dimensions.js" />
       </list>
     </option>
   </component>
@@ -371,12 +354,12 @@
       <workItem from="1536328521438" duration="8523000" />
       <workItem from="1536366333188" duration="4705000" />
       <workItem from="1536842343743" duration="2361000" />
-      <workItem from="1537190877855" duration="5193000" />
+      <workItem from="1537190877855" duration="7460000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25338000" />
+    <option name="totallyTimeSpent" value="27605000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="684" extended-state="0" />
@@ -392,7 +375,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22968198" sideWeight="0.49676898" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22084805" sideWeight="0.49676898" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -731,14 +714,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Tables/categories/Categories.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="33" column="4" lean-forward="false" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/common/TheHeader.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="206">
@@ -799,17 +774,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/store/modules/tableBasicMetadata.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-239">
-          <caret line="42" column="17" lean-forward="true" selection-start-line="42" selection-start-column="17" selection-end-line="42" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
-            <element signature="e#921#2223#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Tables/EditTable.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -825,26 +789,6 @@
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/store/modules/dimensions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="30" column="90" lean-forward="false" selection-start-line="30" selection-start-column="90" selection-end-line="30" selection-end-column="90" />
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
-            <element signature="e#100#1108#0" expanded="false" />
-            <element signature="e#1145#1177#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Tables/Dimensions.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1928">
-          <caret line="38" column="104" lean-forward="true" selection-start-line="38" selection-start-column="104" selection-end-line="38" selection-end-column="104" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -870,9 +814,48 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Tables/TableBasicMetadata.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-53">
-          <caret line="201" column="23" lean-forward="true" selection-start-line="201" selection-start-column="23" selection-end-line="201" selection-end-column="23" />
+        <state relative-caret-position="378">
+          <caret line="147" column="17" lean-forward="true" selection-start-line="125" selection-start-column="8" selection-end-line="147" selection-end-column="17" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/store/modules/tableBasicMetadata.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-466">
+          <caret line="10" column="19" lean-forward="false" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+            <element signature="e#921#2223#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Tables/Dimensions.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-572">
+          <caret line="283" column="40" lean-forward="false" selection-start-line="283" selection-start-column="40" selection-end-line="283" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Tables/categories/Categories.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="56" column="53" lean-forward="true" selection-start-line="56" selection-start-column="53" selection-end-line="56" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/store/modules/dimensions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="105" column="55" lean-forward="false" selection-start-line="105" selection-start-column="55" selection-end-line="105" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+            <element signature="e#100#1108#0" expanded="false" />
+            <element signature="e#1145#1177#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

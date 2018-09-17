@@ -81,6 +81,31 @@ const actions = {
       })
     }
   },
+  postDimensionsList ({commit, rootState}) {
+    let dimensionsObj = {
+      program: '',
+      component: '',
+      dataset: '',
+      tableId: '',
+      horizontal: [],
+      vertical: [],
+      outside: []
+    }
+    dimensionsObj.program = rootState.tableBasicMetadata.tableObj.selectedProgram
+    dimensionsObj.component = rootState.tableBasicMetadata.tableObj.selectedComponent
+    dimensionsObj.dataset = rootState.tableBasicMetadata.tableObj.selectedDataset
+    dimensionsObj.tableId = rootState.tableBasicMetadata.tableObj.selectedTableId
+    console.log(state.verticalDimensionsList)
+    console.log(state.horizontalDimensionsList)
+    console.log(state.outsideDimensionsList)
+    state.verticalDimensionsList.forEach(function (obj) { obj.orderOnAxis = state.verticalDimensionsList.indexOf(obj) })
+    state.horizontalDimensionsList.forEach(function (obj) { obj.orderOnAxis = state.horizontalDimensionsList.indexOf(obj) })
+    state.outsideDimensionsList.forEach(function (obj) { obj.orderOnAxis = state.outsideDimensionsList.indexOf(obj) })
+    dimensionsObj.horizontal = state.verticalDimensionsList
+    dimensionsObj.vertical = state.horizontalDimensionsList
+    dimensionsObj.outside = state.outsideDimensionsList
+    console.log(dimensionsObj)
+  },
   updateVerticalDimensionsList ({commit}, verticalDimensionsList) {
     commit('UPDATE_VERTICAL_DIMENSIONS_LIST', verticalDimensionsList)
   },

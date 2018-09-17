@@ -159,8 +159,29 @@
         </v-flex>
       </v-layout>
       <v-flex xs12 text-xs-right>
-        <v-btn>Save</v-btn>
+        <v-btn @click="dimensionsSaveDialog = true">Save</v-btn>
+        <v-dialog v-model="dimensionsSaveDialog" width="500">
+          <v-card>
+            <v-card-text>Do you want to save the table dimensions?</v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-spacer>
+              </v-spacer>
+              <v-btn @click="saveTableDimensions">Ok</v-btn>
+              <v-btn @click="dimensionsSaveDialog = false">Cancel</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-flex>
+      <v-layout row justify-center>
+        <v-dialog v-model="dimensionsSaveProgress" persistent content-class="loading-dialog">
+          <v-container fill-height>
+            <v-layout row justify-center align-center>
+              <v-progress-circular indeterminate :size="70" :width="7" color="blue"></v-progress-circular>
+            </v-layout>
+          </v-container>
+        </v-dialog>
+      </v-layout>
     </div>
   </v-container>
 </template>
@@ -176,7 +197,9 @@
         showalert: false,
         dialog: false,
         dialog1: false,
-        dialog2: false
+        dialog2: false,
+        dimensionsSaveDialog: false,
+        dimensionsSaveProgress: false
       }
     },
     computed: {
@@ -255,6 +278,11 @@
       }
     },
     methods: {
+      saveTableDimensions () {
+        console.log('clicked dimensions save button')
+        this.dimensionsSaveProgress = true
+        this.$store.dispatch('dimensions/postDimensionsList')
+      },
       // methods to move selected dimensions from dimensions list into respective axes list
       multiselect_rightSelected: function (dimensionsSelected, dimensionsList, axesDimensionsList, axes) {
         this.showalert = dimensionsSelected.length === 0
