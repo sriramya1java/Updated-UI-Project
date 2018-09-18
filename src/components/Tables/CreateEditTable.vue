@@ -88,6 +88,7 @@
       } else {
         if (confirm('save Project?')) {
           next()
+          console.log(next())
         } else {
           next(false)
         }

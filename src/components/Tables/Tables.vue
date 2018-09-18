@@ -163,6 +163,13 @@
         enableFilter: true,
         sortingOrder: ['asc', 'desc'],
         rowSelection: 'multiple',
+        isRowSelectable: function (params) {
+          if (params.data.readyToDeliver === true) {
+            return true
+          } else {
+            return false
+          }
+        },
         suppressRowClickSelection: true,
         columnDefs: this.createColDefs(),
         onGridReady: function (params) {
