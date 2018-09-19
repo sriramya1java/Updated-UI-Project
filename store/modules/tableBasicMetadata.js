@@ -99,13 +99,17 @@ const actions = {
       saveTableObj.label = state.tableObj.selectedDisplayLabel
       saveTableObj.lastEditedBy = rootState.userAndPrograms.user
       return new Promise((resolve, reject) => {
-        Vue.http.post('api/programs/' + program + '/components/' + component + '/datasets/' + dataset + '/tables/', saveTableObj).then((response) => {
+        /* Vue.http.post('api/programs/' + program + '/components/' + component + '/datasets/' + dataset + '/tables/', saveTableObj).then((response) => {
           // console.log(response)
           resolve(response)
         }, (e) => {
           reject(e)
           // console.log(e)
-        })
+        }) */
+        let response = ''
+        resolve(response)
+        // let error = ''
+        // reject(error)
       })
     }
   },

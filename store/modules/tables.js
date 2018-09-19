@@ -39,6 +39,14 @@ const actions = {
     commit('tableBasicMetadata/UPDATE_SELECTED_TABLE_UNIVERSE', [], {root: true})
     commit('tableBasicMetadata/UPDATE_SELECTED_DISPLAY_DESCRIPTION', '', {root: true})
     commit('tableBasicMetadata/UPDATE_SELECTED_PRESENTATIONAL_STYLE', '', {root: true})
+    commit('dimensions/SET_DIMENSIONS', [], {root: true})
+    commit('dimensions/UPDATE_VERTICAL_DIMENSIONS_LIST', [], {root: true})
+    commit('dimensions/UPDATE_HORIZONTAL_DIMENSIONS_LIST', [], {root: true})
+    commit('dimensions/UPDATE_OUTSIDE_DIMENSIONS_LIST', [], {root: true})
+    commit('dimensions/UPDATE_DIMENSIONS_SELECTED', [], {root: true})
+    commit('dimensions/UPDATE_VERTICAL_DIMENSIONS_SELECTED', [], {root: true})
+    commit('dimensions/UPDATE_HORIZONTAL_DIMENSIONS_SELECTED', [], {root: true})
+    commit('dimensions/UPDATE_OUTSIDE_DIMENSIONS_SELECTED', [], {root: true})
   },
   getDeleteTableData ({commit, dispatch}, deleteTableData) {
     commit('SET_DELETE_TABLE_DATA', deleteTableData)

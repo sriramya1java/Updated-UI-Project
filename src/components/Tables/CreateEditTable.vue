@@ -17,7 +17,7 @@
       <v-tab ripple :disabled="this.meta_header_footer_tab">
         Headnotes/Footnotes
       </v-tab>
-      <v-tab ripple @click="onTabChange()" :disabled="this.meta_dimensions_tab">
+      <v-tab ripple :disabled="this.meta_dimensions_tab">
         Dimensions
       </v-tab>
       <v-tab-item>
