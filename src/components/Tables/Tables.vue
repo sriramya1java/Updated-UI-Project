@@ -46,7 +46,6 @@
         </v-dialog>
       </v-layout>
     </v-container>
-    <context-menu></context-menu>
     <router-view></router-view>
   </div>
 </template>
@@ -56,7 +55,6 @@
   import { mapGetters } from 'vuex'
   import DeleteTable from './DeleteTable.vue'
   import EditTable from './EditTable.vue'
-  import ContextMenu from './categories/ContextMenu.vue'
   export default {
     name: 'Tables',
     data () {
@@ -79,8 +77,7 @@
     components: {
       'ag-grid-vue': AgGridVue,
       'delete-component': DeleteTable,
-      'edit-component': EditTable,
-      ContextMenu
+      'edit-component': EditTable
     },
     methods: {
       createColDefs () {
