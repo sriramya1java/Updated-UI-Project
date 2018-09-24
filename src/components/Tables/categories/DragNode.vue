@@ -1,6 +1,6 @@
 <template>
   <div>
-  <div :style='styleObj' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container' @contextmenu.prevent="$refs.menu.open($event, model)">
+  <div :style='styleObj' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container' @contextmenu.prevent="handler($event, model)">
     <div :class="[isClicked ? 'is-clicked' : '', isHover ? 'is-hover': '']" @mouseover='mouseOver' @mouseout='mouseOut' @dblclick="changeType">
       <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText'>
         <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><i :class="this.open && model.children.length > 0 ? 'fa fa-minus' : !this.open && model.children.length > 0 ? 'fa fa-plus' : ''"></i></span>
@@ -97,6 +97,21 @@
       }
     },
     methods: {
+      /**
+       * Alert the text of the menu item that was clicked on.
+       * Console log the data sent from the menu.
+       *
+       * @param {string} text
+       * @param {object} data
+       */
+      onClick (text, data) {
+        alert(`You clicked ${text}!`)
+        console.log(data)
+        // => { foo: 'bar' }
+      },
+      handler (e, data) {
+        this.$refs.menu.open(e, data)
+      },
       toggle () {
         if (this.isFolder) {
           this.open = !this.open

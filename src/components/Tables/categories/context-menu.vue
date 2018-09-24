@@ -95,6 +95,8 @@
        */
       open (event, data) {
         this.data = data
+        console.log(event)
+        console.log(this.data)
         this.show = true
         this.$nextTick(() => {
           this.positionMenu(event.clientY, event.clientX)
@@ -148,10 +150,10 @@
 </script>
 
 <style lang="scss" scoped>
-  $blue600: #1e88e5;
+  $blue600: grey;
   $gray74: #bdbdbd;
   $gray93: #ededed;
-  $gray98: #fafafa;
+  $gray98: white;
   .v-context {
     background: $gray98;
     border: 1px solid $gray74;
@@ -172,6 +174,7 @@
         margin: 0;
         padding: 10px 35px;
         cursor: pointer;
+        color: black;
         &:hover {
           background: $blue600;
           color: $gray98;
