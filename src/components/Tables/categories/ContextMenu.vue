@@ -1,19 +1,21 @@
 <template>
-  <div id="app" @click="hideContextMenu()" @contextmenu="showContextMenu($event)">
-    <div>
-      <img class="logo" src="https://vuejs.org/images/logo.png">
-      <h1 class="instructions">Click with right-button on body</h1>
-    </div>
+  <div>
     <ul id="context-menu">
-      <context-menu-item @click="newRegister()">
-        New register
-      </context-menu-item>
-      <context-menu-item @click="remove()">
-        Remove
-      </context-menu-item>
-      <context-menu-item @click="edit()">
-        Edit
-      </context-menu-item>
+      <li>
+        option 1
+      </li>
+      <li>
+        option 2
+      </li>
+      <li>
+        option 3
+      </li>
+      <li>
+        option 4
+      </li>
+      <li>
+        option 5
+      </li>
     </ul>
   </div>
 </template>
@@ -106,62 +108,8 @@
   }
 </script>
 <style scoped>
-  html, body, #app {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    background-color: #343338;
-    font-family: Roboto, Tahoma, sans-serif;
-  }
-
-  .logo {
-    height: 100px;
-  }
-
-  .instructions {
-    color: white;
-    display: block;
-    font-size: 25px;
-  }
-
   #context-menu {
-    top: 0;
-    left: 0;
-    margin: 0;
-    padding: 0;
-    display: none;
-    list-style: none;
-    position: absolute;
-    z-index: 2147483647;
-    background-color: white;
-    border: 1px solid #ebebeb;
-    border-bottom-width: 0px;
-  }
-
-  #context-menu.active {
-    display: block;
-  }
-
-  .context-menu-icon {
-    top: 1px;
-    position: relative;
-    margin-right: 10px;
-  }
-
-  .context-menu-item {
-    display: flex;
-    cursor: pointer;
-    padding: 8px 15px;
-    align-items: center;
-    border-bottom: 1px solid #ebebeb;
-  }
-
-  .context-menu-item:hover {
-    background-color: #ebebeb;
+    border: 1px solid black;
   }
 </style>
 

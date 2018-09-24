@@ -1,14 +1,14 @@
 <template>
-  <div :style='styleObj' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container'>
-    <!-- <div :class='{"is-clicked": isClicked,"is-hover":isHover}' @click="toggle" @mouseover='mouseOver' @mouseout='mouseOut' @dblclick="changeType"> -->
-    <div :class="[isClicked ? 'is-clicked' : '', isHover ? 'is-hover': '']" @click="toggle" @mouseover='mouseOver' @mouseout='mouseOut' @dblclick="changeType">
+  <div>
+  <div :style='styleObj' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container' @contextmenu.prevent="handler($event, model)" @click="closeContextMenu()">
+    <div :class="[isClicked ? 'is-clicked' : '', isHover ? 'is-hover': '']" @mouseover='mouseOver' @mouseout='mouseOut' @dblclick="changeType">
       <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText'>
-        <!-- <span v-if="this.fromWhere === 'right'">{{ this.open ? '&#8722;' : '&#43;' }}</span>
-        <span class='text pl-2' v-if="showWhat === 'label'">{{model.label}}</span>
-        <span class='text pl-2' v-if="showWhat === 'id'">{{model.id}}</span> -->
-        <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;"><i :class="this.open && model.children.length > 0 ? 'fa fa-minus' : !this.open && model.children.length > 0 ? 'fa fa-plus' : ''"></i></span>
+        <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><i :class="this.open && model.children.length > 0 ? 'fa fa-minus' : !this.open && model.children.length > 0 ? 'fa fa-plus' : ''"></i></span>
         <span class='text pl-2' v-if="showWhat === 'label'">{{model.label}}</span>
         <span class='text pl-2' v-if="showWhat === 'id'">{{model.id}}</span>
+        <div v-show="show">
+          <context-menu></context-menu>
+        </div>
       </div>
     </div>
     <div class='treeMargin' v-show="open" v-if="childrenVisible || isFolder">
@@ -16,11 +16,13 @@
       </item>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
   import { findRoot, exchangeLeftData } from './utils.js'
   import { findRootRight, exchangeRightData } from './utilRight.js'
+  import Contextmenu from './ContextMenu.vue'
   let id = 1000
   let fromData = null
   let toData = null
@@ -28,6 +30,9 @@
   let rootTree = null
   export default {
     name: 'DragNode',
+    components: {
+      'context-menu': Contextmenu
+    },
     data () {
       return {
         open: false,
@@ -37,7 +42,8 @@
           opacity: 1
         },
         showChildren: false,
-        from: ''
+        from: '',
+        show: false
       }
     },
     props: {
@@ -88,6 +94,14 @@
       }
     },
     methods: {
+      handler (e, model) {
+        console.log(e)
+        console.log(model)
+        this.show = true
+      },
+      closeContextMenu () {
+        this.show = false
+      },
       toggle () {
         if (this.isFolder) {
           this.open = !this.open
