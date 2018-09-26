@@ -29,7 +29,7 @@
         </v-card-title>
         <v-card-text>
           <label align-left>Please enter New label</label>
-          <v-text-field label="Solo" solo></v-text-field>
+          <v-text-field label="Solo" solo v-model="labelOverride"></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -66,7 +66,8 @@
         showChildren: false,
         from: '',
         show: false,
-        isEdit: false
+        isEdit: false,
+        labelOverride: ''
       }
     },
     props: {
@@ -141,16 +142,23 @@
         console.log('editing categories list--------', this.categoriesList1)
         let children = this.categoriesList1[0].children
         this.isEdit = true
-        console.log(children)
+        console.log('children ->>>>>>>>>>>>>', children)
+        this.traverseCategories(children)
+      },
+      traverseCategories (children) {
         for (let i = 0; i < children.length; i++) {
           let tableChild = children[i]
           // Do stuff
-          console.log('objects++++++++++++++++++++++', tableChild)
           if (tableChild.children.length > 0) {
-            for (let j = 0; j < tableChild.children.length; j++) {
-              let tableChildChild = tableChild.children[i]
-              console.log('childrens children', tableChildChild)
-            }
+            this.traverseCategories(tableChild.children)
+          }
+          console.log('objects++++++++++++++++++++++', tableChild)
+          console.log(this.editingCategory)
+          if (this.editingCategory.key === tableChild.key) {
+            console.log(true)
+            console.log(tableChild)
+            tableChild.labelOverride = this.labelOverride
+            console.log(this.categoriesList1[0].children)
           }
         }
       },
