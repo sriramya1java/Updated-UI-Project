@@ -94,6 +94,8 @@
        * @param {array|object|string} data User provided data for the menu
        */
       open (event, data) {
+        event.stopPropagation()
+        this.$store.commit('categories/SET_EDITING_CATEGORY', data)
         this.data = data
         console.log(event)
         console.log(this.data)
@@ -162,7 +164,7 @@
     margin: 0;
     padding: 0;
     position: fixed;
-    width: 250px;
+    width: 200px;
     z-index: 99999;
     ul {
       list-style: none;

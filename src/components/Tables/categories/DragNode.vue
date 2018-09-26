@@ -4,7 +4,8 @@
     <div :class="[isClicked ? 'is-clicked' : '', isHover ? 'is-hover': '']" @mouseover='mouseOver' @mouseout='mouseOut' @dblclick="changeType">
       <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText'>
         <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><i :class="this.open && model.children.length > 0 ? 'fa fa-minus' : !this.open && model.children.length > 0 ? 'fa fa-plus' : ''"></i></span>
-        <span class='text pl-2' v-if="showWhat === 'label'">{{model.label}}</span>
+        <span class='text pl-2' v-if="showWhat === 'label' && !isEdit">{{model.label}}</span>
+        <!--<span v-if="isEdit"><input class='text pl-2' style="width: 300px;" v-if="showWhat === 'label'" v-model="model.label"/><i class="fa fa-check-circle"></i></span>-->
         <span class='text pl-2' v-if="showWhat === 'id'">{{model.id}}</span>
       </div>
     </div>
@@ -15,10 +16,28 @@
   </div>
     <vue-context ref="menu">
       <ul slot-scope="child">
-        <li @click="onClick($event.target.innerText, child.data)">Option 1</li>
-        <li @click="onClick($event.target.innerText, child.data)">Option 2</li>
+        <li @click="editCategory($event.target.innerText, child.data)">Edit Category Label</li>
+        <li @click="onClick($event.target.innerText, child.data)">Reset Category label</li>
+        <li @click="onClick($event.target.innerText, child.data)">Remove Category from tree</li>
+        <li @click="onClick($event.target.innerText, child.data)">Hide/SHow category</li>
       </ul>
     </vue-context>
+    <v-dialog v-model="isEdit" max-width="500px" max-height="500px">
+      <v-card>
+        <v-card-title>
+          Edit Categories
+        </v-card-title>
+        <v-card-text>
+          <label align-left>Please enter New label</label>
+          <v-text-field label="Solo" solo></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="isEdit = false">Ok</v-btn>
+          <v-btn @click="isEdit = false">cancel</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -46,7 +65,8 @@
         },
         showChildren: false,
         from: '',
-        show: false
+        show: false,
+        isEdit: false
       }
     },
     props: {
@@ -81,6 +101,12 @@
       }
     },
     computed: {
+      editingCategory () {
+        return this.$store.state.categories.editingCategory
+      },
+      categoriesList1 () {
+        return this.$store.state.categories.categoriesList1
+      },
       isFolder () {
         return (this.model.children && this.model.children.length)
       },
@@ -105,12 +131,36 @@
        * @param {object} data
        */
       onClick (text, data) {
-        alert(`You clicked ${text}!`)
-        console.log(data)
+        alert(`You clicked ${text}!  ${data}! ${this.editingCategory}`)
+        console.log('data=============', data)
         // => { foo: 'bar' }
       },
+      editCategory (event, data) {
+        console.log('editing a category')
+        console.log('editing category=========', this.editingCategory)
+        console.log('editing categories list--------', this.categoriesList1)
+        let children = this.categoriesList1[0].children
+        this.isEdit = true
+        console.log(children)
+        for (let i = 0; i < children.length; i++) {
+          let tableChild = children[i]
+          // Do stuff
+          console.log('objects++++++++++++++++++++++', tableChild)
+          if (tableChild.children.length > 0) {
+            for (let j = 0; j < tableChild.children.length; j++) {
+              let tableChildChild = tableChild.children[i]
+              console.log('childrens children', tableChildChild)
+            }
+          }
+        }
+      },
       handler (e, data) {
-        this.$refs.menu.open(e, data)
+        if (data.id !== 'Categories') {
+          this.$refs.menu.open(e, data)
+          console.log('model++++++++++++++++++++', data)
+          console.log(this.from)
+        }
+        console.log('model++++++++++++++++++++', data)
       },
       toggle () {
         if (this.isFolder) {
