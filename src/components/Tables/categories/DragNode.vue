@@ -4,17 +4,16 @@
     <div :class="[isClicked ? 'is-clicked' : '', isHover ? 'is-hover': '']" @mouseover='mouseOver' @mouseout='mouseOut' @dblclick="changeType">
       <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText'>
         <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><i :class="this.open && model.children.length > 0 ? 'fa fa-minus' : !this.open && model.children.length > 0 ? 'fa fa-plus' : ''"></i></span>
-        <span class='text pl-2' v-if="showWhat === 'label' && !isEdit">{{model.label}}</span>
+        <span class='text pl-2' v-if="showWhat === 'label' && !isEdit">{{model.labelOverride ? model.labelOverride : model.label}}</span>
         <!--<span v-if="isEdit"><input class='text pl-2' style="width: 300px;" v-if="showWhat === 'label'" v-model="model.label"/><i class="fa fa-check-circle"></i></span>-->
         <span class='text pl-2' v-if="showWhat === 'id'">{{model.id}}</span>
       </div>
     </div>
     <div class='treeMargin' v-show="open" v-if="childrenVisible || isFolder">
-      <item v-for="item2 in model.children" :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :model="item2" :key='item2.key' :fromWhere='fromWhere' :autoExpand='autoExpand' :showWhat='showWhat' :defaultText='defaultText'>
-      </item>
+      <item v-for="item2 in model.children" :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :model="item2" :key='item2.key' :fromWhere='fromWhere' :autoExpand='autoExpand' :showWhat='showWhat' :defaultText='defaultText'></item>
     </div>
   </div>
-    <vue-context ref="menu">
+    <vue-context ref="menu" v-if="this.fromWhere === 'right'">
       <ul slot-scope="child">
         <li @click="editCategory($event.target.innerText, child.data)">Edit Category Label</li>
         <li @click="onClick($event.target.innerText, child.data)">Reset Category label</li>
@@ -29,11 +28,11 @@
         </v-card-title>
         <v-card-text>
           <label align-left>Please enter New label</label>
-          <v-text-field label="Solo" solo v-model="labelOverride"></v-text-field>
+          <v-text-field v-model="labelOverride"></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="isEdit = false">Ok</v-btn>
+          <v-btn @click="saveEditCategory()">Ok</v-btn>
           <v-btn @click="isEdit = false">cancel</v-btn>
         </v-card-actions>
       </v-card>
@@ -137,33 +136,33 @@
         // => { foo: 'bar' }
       },
       editCategory (event, data) {
-        console.log('editing a category')
-        console.log('editing category=========', this.editingCategory)
-        console.log('editing categories list--------', this.categoriesList1)
-        let children = this.categoriesList1[0].children
+        // let children = this.categoriesList1[0].children
         this.isEdit = true
-        console.log('children ->>>>>>>>>>>>>', children)
+      },
+      saveEditCategory () {
+        let children = this.categoriesList1[0].children
         this.traverseCategories(children)
+        this.isEdit = false
       },
       traverseCategories (children) {
         for (let i = 0; i < children.length; i++) {
           let tableChild = children[i]
           // Do stuff
-          if (tableChild.children.length > 0) {
-            this.traverseCategories(tableChild.children)
-          }
-          console.log('objects++++++++++++++++++++++', tableChild)
-          console.log(this.editingCategory)
           if (this.editingCategory.key === tableChild.key) {
             console.log(true)
             console.log(tableChild)
             tableChild.labelOverride = this.labelOverride
             console.log(this.categoriesList1[0].children)
           }
+          if (tableChild.children.length > 0) {
+            this.traverseCategories(tableChild.children)
+          }
+          console.log('objects++++++++++++++++++++++', tableChild)
+          console.log(this.editingCategory)
         }
       },
       handler (e, data) {
-        if (data.id !== 'Categories') {
+        if (data.id !== 'Categories' && this.fromWhere === 'right') {
           this.$refs.menu.open(e, data)
           console.log('model++++++++++++++++++++', data)
           console.log(this.from)
