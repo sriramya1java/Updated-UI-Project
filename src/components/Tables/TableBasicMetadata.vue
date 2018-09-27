@@ -67,13 +67,6 @@
           :rules="selectedPresentationalStyleRules"></v-select>
       </v-flex>
       <v-flex xs2>
-        <v-subheader>Display Description: </v-subheader>
-      </v-flex>
-      <v-flex xs10>
-        <v-textarea
-          label="Enter a description of the table's content."></v-textarea>
-      </v-flex>
-      <v-flex xs2>
         <v-subheader>Table Universe: </v-subheader>
       </v-flex>
       <v-flex xs8>

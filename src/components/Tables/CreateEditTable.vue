@@ -167,13 +167,6 @@
       }
     },
     computed: {
-      /* ...mapGetters([
-        'selectedProgramId',
-        'selectedComponentId',
-        'selectedDatasetId',
-        'selectedDisplayLabel',
-        'selectedTableId'
-      ]), */
       dimensionsList () {
         // console.log('------------gets the list of dimensions')
         // console.log(this.$store.state.dimensionsList)

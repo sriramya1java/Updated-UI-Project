@@ -11,7 +11,6 @@ const state = {
     selectedTableId: '',
     selectedDisplayLabel: '',
     selectedTableUniverse: [],
-    selectedDisplayDescription: '',
     selectedPresentationalStyle: ''
   },
   components: ['PEPCHARAGEGROUPS', 'POPESTCHARAGEGROUPS'],
@@ -146,10 +145,6 @@ const actions = {
     // console.log(selectedTableId)
     commit('UPDATE_SELECTED_TABLE_ID', selectedTableId)
   },
-  updateSelectedDisplayDescription ({commit}, selectedDisplayDescription) {
-    // console.log(selectedTableId)
-    commit('UPDATE_SELECTED_DISPLAY_DESCRIPTION', selectedDisplayDescription)
-  },
   updateSelectedPresentationalStyle ({commit}, selectedPresentationalStyle) {
     // console.log(selectedTableId)
     commit('UPDATE_SELECTED_PRESENTATIONAL_STYLE', selectedPresentationalStyle)
@@ -191,9 +186,6 @@ const mutations = {
   // mutation to clear and set the tableUniverse value.
   UPDATE_SELECTED_TABLE_UNIVERSE (state, selectedTableUniverse) {
     state.tableObj.selectedTableUniverse = selectedTableUniverse
-  },
-  UPDATE_SELECTED_DISPLAY_DESCRIPTION (state, selectedDisplayDescription) {
-    state.tableObj.selectedDisplayDescription = selectedDisplayDescription
   },
   UPDATE_SELECTED_PRESENTATIONAL_STYLE (state, selectedPresentationalStyle) {
     /* if(selectedPresentationalStyle === 'HIERARCHICAL1') {

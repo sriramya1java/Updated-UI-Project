@@ -4,7 +4,7 @@
     <div :class="[isClicked ? 'is-clicked' : '', isHover ? 'is-hover': '']" @mouseover='mouseOver' @mouseout='mouseOut' @dblclick="changeType">
       <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText'>
         <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><i :class="this.open && model.children.length > 0 ? 'fa fa-minus' : !this.open && model.children.length > 0 ? 'fa fa-plus' : ''"></i></span>
-        <span class='text pl-2' v-if="showWhat === 'label' && !isEdit">{{model.labelOverride ? model.labelOverride : model.label}}</span>
+        <span class='text pl-2' v-if="showWhat === 'label' && !isEdit">{{model.labelOverride && this.fromWhere === 'right' && !this.resetLabel ? model.labelOverride : model.label}}</span>
         <!--<span v-if="isEdit"><input class='text pl-2' style="width: 300px;" v-if="showWhat === 'label'" v-model="model.label"/><i class="fa fa-check-circle"></i></span>-->
         <span class='text pl-2' v-if="showWhat === 'id'">{{model.id}}</span>
       </div>
@@ -16,7 +16,7 @@
     <vue-context ref="menu" v-if="this.fromWhere === 'right'">
       <ul slot-scope="child">
         <li @click="editCategory($event.target.innerText, child.data)">Edit Category Label</li>
-        <li @click="onClick($event.target.innerText, child.data)">Reset Category label</li>
+        <li @click="resetCategory($event.target.innerText, child.data)">Reset Category label</li>
         <li @click="onClick($event.target.innerText, child.data)">Remove Category from tree</li>
         <li @click="onClick($event.target.innerText, child.data)">Hide/SHow category</li>
       </ul>
@@ -66,7 +66,8 @@
         from: '',
         show: false,
         isEdit: false,
-        labelOverride: ''
+        labelOverride: '',
+        resetLabel: false
       }
     },
     props: {
@@ -138,6 +139,9 @@
       editCategory (event, data) {
         // let children = this.categoriesList1[0].children
         this.isEdit = true
+      },
+      resetCategory (event, data) {
+        this.resetLabel = true
       },
       saveEditCategory () {
         let children = this.categoriesList1[0].children
