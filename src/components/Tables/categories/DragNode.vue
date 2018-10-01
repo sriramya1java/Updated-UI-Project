@@ -141,7 +141,7 @@
       },
       resetCategory (event, data) {
         let children = this.categoriesList1[0].children
-        this.traverseResetCategories(children)
+        this.traverseCategories(children, 'reset')
       },
       saveEditCategory () {
         let children = this.categoriesList1[0].children
@@ -155,7 +155,7 @@
           if (this.editingCategory.key === tableChild.key) {
             console.log(true)
             console.log(tableChild)
-            tableChild.labelOverride = this.labelOverride
+            tableChild.labelOverride = operation === 'reset' ? '' : this.labelOverride
             console.log(this.categoriesList1[0].children)
           }
           if (tableChild.children.length > 0) {
