@@ -159,24 +159,7 @@
             console.log(this.categoriesList1[0].children)
           }
           if (tableChild.children.length > 0) {
-            this.traverseCategories(tableChild.children)
-          }
-          console.log('objects++++++++++++++++++++++', tableChild)
-          console.log(this.editingCategory)
-        }
-      },
-      traverseResetCategories (children, operation) {
-        for (let i = 0; i < children.length; i++) {
-          let tableChild = children[i]
-          // Do stuff
-          if (this.editingCategory.key === tableChild.key) {
-            console.log(true)
-            console.log(tableChild)
-            tableChild.labelOverride = ''
-            console.log(this.categoriesList1[0].children)
-          }
-          if (tableChild.children.length > 0) {
-            this.traverseResetCategories(tableChild.children)
+            this.traverseCategories(tableChild.children, operation)
           }
           console.log('objects++++++++++++++++++++++', tableChild)
           console.log(this.editingCategory)
