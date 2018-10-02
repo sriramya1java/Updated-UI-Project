@@ -4,7 +4,7 @@
     <div :class="[isClicked ? 'is-clicked' : '', isHover ? 'is-hover': '']" @mouseover='mouseOver' @mouseout='mouseOut' @dblclick="changeType">
       <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText'>
         <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><i :class="this.open && model.children.length > 0 ? 'fa fa-minus' : !this.open && model.children.length > 0 ? 'fa fa-plus' : ''"></i></span>
-        <span class='text pl-2' v-if="showWhat === 'label' && !isEdit" :style="model.labelOverride ? 'font-style: italic' : ''">{{model.labelOverride ? model.labelOverride : model.label}}</span>
+        <span class='text pl-2' v-if="showWhat === 'label' && !isEdit" :class="[model.labelOverride ? 'isOveridden' : '', model.hidden ? 'isHidden' : '']">{{model.labelOverride ? model.labelOverride : model.label}}</span>
         <span class='text pl-2' v-if="showWhat === 'id'">{{model.id}}</span>
       </div>
     </div>
@@ -17,7 +17,7 @@
         <li @click="editCategory($event.target.innerText, child.data)">Edit Category Label</li>
         <li @click="resetCategory($event.target.innerText, child.data)" :class="model.labelOverride ? '' : 'disabled'">Reset Category label</li>
         <li @click="onClick($event.target.innerText, child.data)">Remove Category from tree</li>
-        <li @click="onClick($event.target.innerText, child.data)">Hide/SHow category</li>
+        <li @click="hideShowCategory($event.target.innerText, child.data)">Hide/SHow category</li>
       </ul>
     </vue-context>
     <v-dialog v-model="isEdit" max-width="500px" max-height="500px">
@@ -143,6 +143,10 @@
         let children = this.categoriesList1[0].children
         this.traverseCategories(children, 'reset')
       },
+      hideShowCategory (event, data) {
+        let children = this.categoriesList1[0].children
+        this.traverseCategories(children, 'hideShow')
+      },
       saveEditCategory () {
         let children = this.categoriesList1[0].children
         this.traverseCategories(children, 'edit')
@@ -155,14 +159,20 @@
           if (this.editingCategory.key === tableChild.key) {
             console.log(true)
             console.log(tableChild)
-            tableChild.labelOverride = operation === 'reset' ? '' : this.labelOverride
-            console.log(this.categoriesList1[0].children)
+            if (operation === 'reset' || operation === 'edit') {
+              tableChild.labelOverride = operation === 'reset' ? '' : this.labelOverride
+            }
+            if (operation === 'hideShow') {
+              tableChild.hidden = !tableChild.hidden
+            }
+            console.log('after operations', this.categoriesList1[0].children)
+            console.log('after operations complete array', this.categoriesList1)
           }
           if (tableChild.children.length > 0) {
             this.traverseCategories(tableChild.children, operation)
           }
-          console.log('objects++++++++++++++++++++++', tableChild)
-          console.log(this.editingCategory)
+/*          console.log('objects++++++++++++++++++++++', tableChild)
+          console.log(this.editingCategory) */
         }
       },
       handler (e, data) {
@@ -311,7 +321,14 @@
 <style>
   .disabled {
     pointer-events: none;
-    opacity: 0.6;
+    opacity: 0.5;
+  }
+  .isOveridden {
+    font-style: italic;
+  }
+  .isHidden {
+    pointer-events: none;
+    opacity: 0.5;
   }
   .dnd-container {
     background: #fff;
@@ -330,14 +347,14 @@
     font-weight: bold;
   }
   .text {
-    font-size: 12px;
+    font-size: 14px;
   }
   .treeNodeText {
     height: 28px;
     box-sizing: border-box;
     width: fit-content;
     font-size: 18px;
-    color: #324057;
+    color: black;
     display: flex;
     align-items: center;
   }

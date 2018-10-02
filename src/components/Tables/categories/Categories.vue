@@ -23,7 +23,7 @@
     <v-btn slot="activator">Save</v-btn>
     <v-btn slot="activator">Discard</v-btn>
   </div>
-</div>  
+</div>
 </template>
 <script>
 import VueDragTree from './VueDragTree.vue'
@@ -53,6 +53,8 @@ export default{
       get () {
         this.$store.state.categories.categoriesList.forEach(x => {
           x.children = []
+          x.hidden = false
+          x.labelOverride = ''
         })
         console.log(this.$store.state.categoriesList)
         // to delete children and key from the list
