@@ -1,30 +1,22 @@
 <template>
   <div>
-    <div class="card" v-if="pathVal === 'Notes'">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-12">
-            <router-link :to="{ name: 'editnote', params: { noteString: 'new' }, query: { debug: true }}">
-              <button type="button" class="btn btn-primary float-left" noteString="new">Create a New Note ></button>
-            </router-link>
-            <div class="clearfix"></div>
-          </div>
-        </div>
-        <div class="row" style="padding-top: 6px;">
-          <div class="col-md-12">
-            <ag-grid-vue style="width: 100%; height: 200px;"
-                         class="ag-theme-balham"
-                         :gridOptions="gridOptions"
-                         :rowDataChanged="onRowDataChanged"
-                         :rowData="rowData">
-            </ag-grid-vue>
-          </div>
-        </div>
-      </div>
-    </div>
-    <span v-if="pathVal === 'editnote'">
-        <router-view></router-view>
-    </span>
+    <v-container fluid v-if="pathVal === 'Notes'">
+      <v-flex xs12 class="text-sm-left">
+        <v-tooltip top>
+          <v-btn :to="{ name: 'editnote', params: { noteString: 'new' }, query: { debug: true }}" slot="activator">Create a New Note</v-btn>
+          <span>Click to Create a New Note</span>
+        </v-tooltip>
+      </v-flex>
+      <v-flex xs12 text-center class="pa-2">
+        <ag-grid-vue style="width: 100%; height: 200px;"
+                     class="ag-theme-balham"
+                     :gridOptions="gridOptions"
+                     :rowDataChanged="onRowDataChanged"
+                     :rowData="rowData">
+        </ag-grid-vue>
+      </v-flex>
+    </v-container>
+    <router-view></router-view>
   </div>
 </template>
 <script>
