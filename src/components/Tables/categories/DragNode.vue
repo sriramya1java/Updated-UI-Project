@@ -316,7 +316,7 @@
         // Deleted in the parent component
         for (let i = 0; i < children.length; i++) {
           let child = children[i]
-          // check if the key is equal then remove from children
+          // check if the key is equal then remove i from children
           if (child.key === childKeyToRemove) {
             child = children.splice(i, 1)
           }
