@@ -318,7 +318,7 @@
           let child = children[i]
           // check if the key is equal then remove from children
           if (child.key === childKeyToRemove) {
-            child = children.splice(children[i], 1)
+            child = children.splice(i, 1)
           }
           /**
            * check if child had children and call the function
