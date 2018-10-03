@@ -16,7 +16,7 @@
       <ul slot-scope="child">
         <li @click="editCategory($event.target.innerText, child.data)">Edit Category Label</li>
         <li @click="resetCategory($event.target.innerText, child.data)" :class="model.labelOverride ? '' : 'disabled'">Reset Category label</li>
-        <li @click="onClick($event.target.innerText, child.data)">Remove Category from tree</li>
+        <li @click="deleteCategory($event.target.innerText, child.data)">Remove Category from tree</li>
         <li @click="hideShowCategory($event.target.innerText, child.data)">Hide/SHow category</li>
       </ul>
     </vue-context>
@@ -142,6 +142,10 @@
       resetCategory (event, data) {
         let children = this.categoriesList1[0].children
         this.traverseCategories(children, 'reset')
+      },
+      deleteCategory (event, child) {
+        let parent = this.categoriesList1[0].children
+        this.removeFromTree(parent, child.key)
       },
       hideShowCategory (event, data) {
         let children = this.categoriesList1[0].children
@@ -307,6 +311,22 @@
       dragEnd (e) {
         rootTree.emitDragEnd(this.model, this, e)
         return // eslint-disable-line no-useless-return
+      },
+      removeFromTree (children, childKeyToRemove) {
+        // Deleted in the parent component
+        for (let i = 0; i < children.length; i++) {
+          let child = children[i]
+          // check if the key is equal then remove from children
+          if (child.key === childKeyToRemove) {
+            child = children.splice(children[i], 1)
+          }
+          /**
+           * check if child had children and call the function
+           */
+          if (child && child !== null && child !== undefined && child.children !== undefined && child.children.length > 0) {
+            this.removeFromTree(child.children, childKeyToRemove)
+          }
+        }
       }
     },
     beforeCreate () {
