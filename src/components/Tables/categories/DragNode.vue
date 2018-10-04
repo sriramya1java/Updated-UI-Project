@@ -82,7 +82,7 @@
       defaultText: {
         // Default text displayed when adding a node．
         type: String,
-        default: 'Add Node'
+        default: 'New Node'
       },
       depth: {
         type: Number,
@@ -251,7 +251,11 @@
         if (this.fromWhere === 'right') {
           this.model.children.push({
             label: this.defaultText,
-            id: id++
+            id: id++,
+            children: [],
+            hidden: false,
+            labelOverride: '',
+            key: Math.floor(Math.random() * 1000000000000) + 1
           })
         }
       },

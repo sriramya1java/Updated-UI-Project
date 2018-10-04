@@ -23,7 +23,7 @@
       defaultText: {
         // Default text displayed when adding a node．
         type: String,
-        default: 'Add node'
+        default: 'New Node'
       },
       depth: {
         type: Number,
