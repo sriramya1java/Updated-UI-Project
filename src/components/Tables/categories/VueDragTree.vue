@@ -23,7 +23,7 @@
       defaultText: {
         // Default text displayed when adding a node．
         type: String,
-        default: 'New Node'
+        default: 'Grouping Category'
       },
       depth: {
         type: Number,

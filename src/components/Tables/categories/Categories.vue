@@ -12,10 +12,10 @@
   <div class="main">
     <div class="container" style="width: 100%">
       <div class="treeSelf">
-        <vue-drag-tree :data='categoriesList' :allowDrag='allowDrag' ontoggle="true" :allowDrop='allowDropLeft' :showWhat='showOnCheck' :fromWhere='left' :defaultText='"New Node"' @current-node-clicked='curNodeClicked' @drag="dragHandler" @drag-enter="dragEnterHandler" @drag-leave="dragLeaveHandler" @drag-over="dragOverHandler" @drag-end="dragEndHandler" @drop="dropHandler"></vue-drag-tree>
+        <vue-drag-tree :data='categoriesList' :allowDrag='allowDrag' ontoggle="true" :allowDrop='allowDropLeft' :showWhat='showOnCheck' :fromWhere='left' :defaultText='"Grouping Category"' @current-node-clicked='curNodeClicked' @drag="dragHandler" @drag-enter="dragEnterHandler" @drag-leave="dragLeaveHandler" @drag-over="dragOverHandler" @drag-end="dragEndHandler" @drop="dropHandler"></vue-drag-tree>
       </div>
       <div class="treeSelf">
-        <vue-drag-tree :data='categoriesList1' :allowDrag='allowDrag' :auto-expand="autoExpand" ontoggle="true" :allowDrop='allowDropRight' :showWhat='showOnCheck' :fromWhere='right' :defaultText='"New Node"' @current-node-clicked='curNodeClicked' @drag="dragHandler" @drag-enter="dragEnterHandler" @drag-leave="dragLeaveHandler" @drag-over="dragOverHandler" @drag-end="dragEndHandler" @drop="dropHandler"></vue-drag-tree>
+        <vue-drag-tree :data='categoriesList1' :allowDrag='allowDrag' :auto-expand="autoExpand" ontoggle="true" :allowDrop='allowDropRight' :showWhat='showOnCheck' :fromWhere='right' :defaultText='"Grouping Category"' @current-node-clicked='curNodeClicked' @drag="dragHandler" @drag-enter="dragEnterHandler" @drag-leave="dragLeaveHandler" @drag-over="dragOverHandler" @drag-end="dragEndHandler" @drop="dropHandler"></vue-drag-tree>
       </div>
     </div>
     <div class='showSec'>
