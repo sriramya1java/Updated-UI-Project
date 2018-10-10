@@ -18,8 +18,15 @@
         <vue-drag-tree :data='categoriesList1' :allowDrag='allowDrag' :auto-expand="autoExpand" ontoggle="true" :allowDrop='allowDropRight' :showWhat='showOnCheck' :fromWhere='right' :defaultText='"Grouping Category"' @current-node-clicked='curNodeClicked' @drag="dragHandler" @drag-enter="dragEnterHandler" @drag-leave="dragLeaveHandler" @drag-over="dragOverHandler" @drag-end="dragEndHandler" @drop="dropHandler"></vue-drag-tree>
       </div>
     </div>
-    <div class='showSec'>
-      <pre>{{formatData1}}</pre>
+    <div class="main">
+      <div class="container" style="width: 100%">
+        <div class='showSec'>
+          <pre>{{formatData1}}</pre>
+        </div>
+        <div class='showSec'>
+          <pre>{{formatData}}</pre>
+        </div>
+      </div>
     </div>
   </div>
   <div class="text-xs-right pt-4">
@@ -99,23 +106,23 @@ export default{
       return true
     },
     curNodeClicked (model, component) {
-      // console.log('******************************', this.curNodeClicked)
-      // console.log('curNodeClicked', model, component)
+      console.log('******************************', this.curNodeClicked)
+      console.log('curNodeClicked', model, component)
     },
     dragHandler (model, component, e) {
-      // console.log('dragHandler: ', model, component, e)
+      console.log('dragHandler: ', model, component, e)
     },
     dragEnterHandler (model, component, e) {
-      // console.log('dragEnterHandler: ', model, component, e)
+      console.log('dragEnterHandler: ', model, component, e)
     },
     dragLeaveHandler (model, component, e) {
-      // console.log('dragLeaveHandler: ', model, component, e)
+      console.log('dragLeaveHandler: ', model, component, e)
     },
     dragOverHandler (model, component, e) {
-      // console.log('dragOverHandler: ', model, component, e)
+      console.log('dragOverHandler: ', model, component, e)
     },
     dragEndHandler (model, component, e) {
-      // console.log('dragEndHandler: ', model, component, e)
+      console.log('dragEndHandler: ', model, component, e)
     },
     dropHandler (model, component, e) {
       // console.log('dropHandler: ', model, component, e)

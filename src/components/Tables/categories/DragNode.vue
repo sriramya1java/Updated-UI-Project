@@ -1,7 +1,7 @@
 <template>
   <div>
   <div :style='styleObj' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container' @contextmenu.prevent="handler($event, model)">
-    <div :class="[isClicked ? 'is-clicked' : '', isHover ? 'is-hover': '']" @mouseover='mouseOver' @mouseout='mouseOut' @dblclick="changeType">
+    <div :class="[isClicked ? 'is-clicked' : '', isHover ? 'is-hover': '']" @mouseover='mouseOver' @mouseout='mouseOut'>
       <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText'>
         <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><i :class="this.open && model.children.length > 0 ? 'fa fa-minus' : !this.open && model.children.length > 0 ? 'fa fa-plus' : ''"></i></span>
         <span class='text pl-2' v-if="showWhat === 'label' && !isEdit" :class="[model.labelOverride ? 'isOveridden' : '', model.hidden ? 'isHidden' : '']">{{model.labelOverride ? model.labelOverride : model.label}}</span>
@@ -44,7 +44,7 @@
   import { findRoot, exchangeLeftData } from './utils.js'
   import { findRootRight, exchangeRightData } from './utilRight.js'
   import VueContext from './context-menu.vue'
-  let id = 1000
+  // let id = 1000
   let fromData = null
   let toData = null
   let nodeClicked = undefined // eslint-disable-line no-undef-init
@@ -141,7 +141,7 @@
         this.isEdit = true
       },
       addNode (event, data) {
-        this.addChild()
+        this.changeType()
       },
       resetCategory (event, data) {
         let children = this.categoriesList1[0].children
@@ -236,6 +236,8 @@
       },
       changeType () {
         // The user needs to highlight --> to record the currently clicked node
+        console.log(this.model.children)
+        console.log(this.model.children.length)
         if (this.currentHighlight) {
           nodeClicked = this.model.id
         }
@@ -253,10 +255,13 @@
         this.isHover = false
       },
       addChild () {
+        let d = new Date()
+        let seconds = Math.round(d.getTime())
+        console.log(seconds)
         if (this.fromWhere === 'right') {
           this.model.children.push({
             label: this.defaultText,
-            id: id++,
+            id: '_GRP_' + seconds,
             children: [],
             hidden: false,
             labelOverride: '',
