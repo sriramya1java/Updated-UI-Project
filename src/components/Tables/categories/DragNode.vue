@@ -241,10 +241,10 @@
         }
         if (!this.isFolder) {
           this.$set(this.model, 'children', [])
-          this.addChild()
           this.open = true || this.autoExpand
           this.isClicked = true
         }
+        this.addChild()
       },
       mouseOver (e) {
         this.isHover = true
