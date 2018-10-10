@@ -18,6 +18,7 @@
         <li @click="resetCategory($event.target.innerText, child.data)" :class="model.labelOverride ? '' : 'disabled'">Reset Category label</li>
         <li @click="deleteCategory($event.target.innerText, child.data)">Remove Category from tree</li>
         <li @click="hideShowCategory($event.target.innerText, child.data)">Hide/SHow category</li>
+        <li @click="addNode($event.target.innerText, child.data)">Add category</li>
       </ul>
     </vue-context>
     <v-dialog v-model="isEdit" max-width="500px" max-height="500px">
@@ -139,6 +140,9 @@
         // let children = this.categoriesList1[0].children
         this.isEdit = true
       },
+      addNode (event, data) {
+        this.addChild()
+      },
       resetCategory (event, data) {
         let children = this.categoriesList1[0].children
         this.traverseCategories(children, 'reset')
@@ -180,7 +184,8 @@
         }
       },
       handler (e, data) {
-        if (data.id !== 'Categories' && this.fromWhere === 'right') {
+        // if (data.id !== 'Categories' && this.fromWhere === 'right') {
+        if (this.fromWhere === 'right') {
           this.$refs.menu.open(e, data)
           console.log('model++++++++++++++++++++', data)
           console.log(this.from)
