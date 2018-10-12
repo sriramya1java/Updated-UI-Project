@@ -13,7 +13,7 @@
         </v-tooltip>
       </v-flex>
       <v-flex xs12 text-center class="pa-2">
-        <ag-grid-vue style="width: 100%; height: 200px;"
+        <ag-grid-vue style="width: 100%; height: 400px;"
                      class="ag-theme-balham"
                      :gridOptions="gridOptions"
                      :rowDataChanged="onRowDataChanged"

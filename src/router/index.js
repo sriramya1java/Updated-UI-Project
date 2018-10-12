@@ -61,7 +61,7 @@ export default new Router({
       component: Notes
     },
     {
-      path: '/notes/editnote/:noteString',
+      path: '/notes/editnote/:programString/:noteString',
       name: 'editnote',
       props: true,
       component: CreateEditNote
