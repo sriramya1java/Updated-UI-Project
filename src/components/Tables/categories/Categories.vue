@@ -110,19 +110,19 @@ export default{
       console.log('curNodeClicked', model, component)
     },
     dragHandler (model, component, e) {
-      console.log('dragHandler: ', model, component, e)
+      // console.log('dragHandler: ', model, component, e)
     },
     dragEnterHandler (model, component, e) {
-      console.log('dragEnterHandler: ', model, component, e)
+      // console.log('dragEnterHandler: ', model, component, e)
     },
     dragLeaveHandler (model, component, e) {
-      console.log('dragLeaveHandler: ', model, component, e)
+      // console.log('dragLeaveHandler: ', model, component, e)
     },
     dragOverHandler (model, component, e) {
-      console.log('dragOverHandler: ', model, component, e)
+      // console.log('dragOverHandler: ', model, component, e)
     },
     dragEndHandler (model, component, e) {
-      console.log('dragEndHandler: ', model, component, e)
+      // console.log('dragEndHandler: ', model, component, e)
     },
     dropHandler (model, component, e) {
       // console.log('dropHandler: ', model, component, e)

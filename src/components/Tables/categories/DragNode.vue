@@ -348,6 +348,7 @@
     },
     created () {
       rootTree = this.from === 'left' ? findRoot(this) : findRootRight(this)
+      console.log('this ---------', this)
     }
   }
 </script>
@@ -367,9 +368,9 @@
   .dnd-container {
     background: #fff;
   }
-  .dnd-container .is-clicked {
-    /* background: #e5e9f2; */
-  }
+  /* .dnd-container .is-clicked {
+    background: #e5e9f2;
+  } */
   .dnd-container .is-hover {
     background: #e5e9f2;
     cursor: pointer;

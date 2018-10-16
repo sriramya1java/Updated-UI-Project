@@ -295,6 +295,35 @@
         this.dimensionsSaveProgress = true
         this.$store.dispatch('dimensions/postDimensionsList')
         this.$emit('event_child_dimensions', false)
+        console.log(this.verticalDimensionsList)
+        console.log(this.horizontalDimensionsList)
+        console.log(this.outsideDimensionsList)
+        this.dimensionsSaveProgress = false
+        let horizontalHasGCT = this.verticalDimensionsList.some(function (item) { return item.type === 'GCT' })
+        let verticalHasGCT = this.horizontalDimensionsList.some(function (item) { return item.type === 'GCT' })
+        switch (true) {
+          case horizontalHasGCT && verticalHasGCT:
+            console.log('presentational style : GCT horizontalHasGCT && verticalHasGCT')
+            break
+          case horizontalHasGCT && this.verticalDimensionsList.length >= 1:
+            console.log('presentational style : GCT horizontalHasGCT && this.verticalDimensionsList.length >= 1')
+            break
+          case verticalHasGCT && this.horizontalDimensionsList.length >= 1:
+            console.log('presentational style : GCT verticalHasGCT && this.horizontalDimensionsList.length >= 1')
+            break
+          case !horizontalHasGCT && !verticalHasGCT && this.verticalDimensionsList.length >= 1 && this.horizontalDimensionsList.length >= 1:
+            console.log('presentational style : Hierarchical')
+            break
+          case this.horizontalDimensionsList.length === 0 && this.verticalDimensionsList.length >= 1:
+            console.log('presentational style : flat')
+            break
+          case this.horizontalDimensionsList.length >= 1 && this.verticalDimensionsList.length === 0:
+            console.log('presentational style : flat')
+            break
+          default:
+            console.log(undefined)
+            break
+        }
       },
       // methods to move selected dimensions from dimensions list into respective axes list
       multiselect_rightSelected: function (dimensionsSelected, dimensionsList, axesDimensionsList, axes) {
