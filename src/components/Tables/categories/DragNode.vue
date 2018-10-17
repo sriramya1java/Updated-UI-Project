@@ -67,7 +67,8 @@
         show: false,
         isEdit: false,
         labelOverride: '',
-        resetLabel: false
+        resetLabel: false,
+        swapOrChild: 'child'
       }
     },
     props: {
@@ -312,6 +313,11 @@
         if (!this.allowDrop(this.model, this)) {
           return
         }
+        if (e && e !== undefined && e.clientX) {
+          console.log(e.clientX)
+          this.swapOrChild = e.clientX > 1086 ? 'child' : 'swap'
+          console.log(this.swapOrChild)
+        }
         toData = this
         this.from = fromData.fromWhere
         console.log('from', this.from)
@@ -319,7 +325,7 @@
           exchangeLeftData(rootTree, fromData, toData)
         } else if (this.from === 'right') {
           console.log('before swapping node ------------', this.categoriesList1[0].children)
-          exchangeRightData(rootTree, fromData, toData, this.categoriesList1[0].children)
+          exchangeRightData(rootTree, fromData, toData, this.categoriesList1[0].children, this.swapOrChild)
           console.log('after swapping------------', this.$store.state.categories.categoriesList1.children)
         }
         rootTree.emitDrop(this.model, this, e)

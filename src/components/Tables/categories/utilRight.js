@@ -61,8 +61,10 @@ const isLinealRelation = (from, to) => {
  * @param from Dragged node component Vnode data
  * @param to Drag and drop node component Vnode data
  * @param array
+ * @param action
  */
-const exchangeRightData = (rootCom, from, to, array) => {
+const exchangeRightData = (rootCom, from, to, array, action) => {
+  console.log('action : ', action)
   // If the drag node is the same as the dragged node，return;
   if (from._uid === to._uid) {
     return
@@ -129,8 +131,7 @@ const exchangeRightData = (rootCom, from, to, array) => {
   // Then the from node is added to the last bit in the to node.
   if (!toModel.children) {
     toModel.children = [newFrom]
-  } else {
-    // toModel.children = toModel.children.concat([newFrom])
+  } else if (action === 'swap') {
     var fromElementPos = array.map(function (x) { return x.key }).indexOf(newFrom.key)
     // var objectFoundFrom = array[fromElementPos]
     var toElementPos = array.map(function (x) { return x.key }).indexOf(toModel.key)
@@ -138,6 +139,8 @@ const exchangeRightData = (rootCom, from, to, array) => {
     console.log(fromElementPos)
     console.log(toElementPos)
     $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', swapArrayElements(array, fromElementPos, toElementPos))
+  } else if (action === 'child') {
+    toModel.children = toModel.children.concat([newFrom])
   }
 }
 var swapArrayElements = function (a, x, y) {
