@@ -1,3 +1,5 @@
+import store from '../../../../store/store'
+var $store = store
 const findRootRight = which => {
   let ok = false
   let that = which
@@ -58,6 +60,7 @@ const isLinealRelation = (from, to) => {
  * @param rootCom Root component（vue-drag-tree.vue）
  * @param from Dragged node component Vnode data
  * @param to Drag and drop node component Vnode data
+ * @param array
  */
 const exchangeRightData = (rootCom, from, to, array) => {
   // If the drag node is the same as the dragged node，return;
@@ -134,8 +137,7 @@ const exchangeRightData = (rootCom, from, to, array) => {
     // var objectFoundTo = array[toElementPos]
     console.log(fromElementPos)
     console.log(toElementPos)
-    this.array = swapArrayElements(array, fromElementPos, toElementPos)
-    console.log('after swapping----------', this.array)
+    $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', swapArrayElements(array, fromElementPos, toElementPos))
   }
 }
 var swapArrayElements = function (a, x, y) {

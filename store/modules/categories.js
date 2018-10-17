@@ -54,6 +54,9 @@ const mutations = {
   SET_EDITING_CATEGORY (state, editingCategory) {
     state.editingCategory = editingCategory
     console.log('something in state -------------', state.editingCategory)
+  },
+  SET_CATEGORIES_LIST_CHILDREN (state, array) {
+    state.categoriesList1[0].children = array
   }
 }
 export default {
