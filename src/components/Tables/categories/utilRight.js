@@ -59,7 +59,7 @@ const isLinealRelation = (from, to) => {
  * @param from Dragged node component Vnode data
  * @param to Drag and drop node component Vnode data
  */
-const exchangeRightData = (rootCom, from, to) => {
+const exchangeRightData = (rootCom, from, to, array) => {
   // If the drag node is the same as the dragged node，return;
   if (from._uid === to._uid) {
     return
@@ -123,13 +123,26 @@ const exchangeRightData = (rootCom, from, to) => {
       item => item.key !== newFrom.key
     )
   }
-
   // Then the from node is added to the last bit in the to node.
   if (!toModel.children) {
     toModel.children = [newFrom]
   } else {
-    toModel.children = toModel.children.concat([newFrom])
+    // toModel.children = toModel.children.concat([newFrom])
+    var fromElementPos = array.map(function (x) { return x.key }).indexOf(newFrom.key)
+    // var objectFoundFrom = array[fromElementPos]
+    var toElementPos = array.map(function (x) { return x.key }).indexOf(toModel.key)
+    // var objectFoundTo = array[toElementPos]
+    console.log(fromElementPos)
+    console.log(toElementPos)
+    this.array = swapArrayElements(array, fromElementPos, toElementPos)
+    console.log('after swapping----------', this.array)
   }
+}
+var swapArrayElements = function (a, x, y) {
+  if (a.length === 1) return a
+  a.splice(y, 1, a.splice(x, 1, a[y])[0])
+  console.log('splicing after------------', a)
+  return a
 }
 
 export { findRootRight, exchangeRightData }

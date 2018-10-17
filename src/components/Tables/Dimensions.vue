@@ -324,6 +324,7 @@
             console.log(undefined)
             break
         }
+        this.$emit('changed ps')
       },
       // methods to move selected dimensions from dimensions list into respective axes list
       multiselect_rightSelected: function (dimensionsSelected, dimensionsList, axesDimensionsList, axes) {

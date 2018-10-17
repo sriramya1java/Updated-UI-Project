@@ -318,7 +318,9 @@
         if (this.from === 'left') {
           exchangeLeftData(rootTree, fromData, toData)
         } else if (this.from === 'right') {
-          exchangeRightData(rootTree, fromData, toData)
+          console.log(this.categoriesList1[0].children)
+          exchangeRightData(rootTree, fromData, toData, this.categoriesList1[0].children)
+          console.log('after swapping------------', this.categoriesList1[0].children)
         }
         rootTree.emitDrop(this.model, this, e)
       },
