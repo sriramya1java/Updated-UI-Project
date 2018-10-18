@@ -75,7 +75,9 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
    */
   const fromParentModel = from.$parent.model
   const parentIndex = array.map(function (x) { return x.key }).indexOf(fromParentModel.key)
+  const parentI = getIndex(array, fromParentModel.key, 'child')
   console.log('parentIndex : ' + parentIndex)
+  console.log('parentI : ' + parentI)
   // If the two are parent-child relationships. Move the from node to the to node level and drop it to the next one
   if (hasInclude(from, to)) {
     // If "parent" is the topmost node (the outermost data in the node array)
@@ -122,7 +124,7 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
     /**
      * checking if the parent is exist in the array if exists it means its from children
      */
-    if (action === 'swap' && fromParentModel.children !== undefined && fromParentModel.children.length > 0 && parentIndex > -1) {
+    if (action === 'swap' && fromParentModel.children !== undefined && fromParentModel.children.length > 0 && parentIndex > -1 && parentI !== 'gchild') {
       const fromIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(newFrom.key)
       // var objectFoundFrom = array[fromElementPos]
       const toIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(toModel.key)
@@ -133,6 +135,14 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
       fromParentModel.children = fromParentModel.children.filter(
         item => item.key !== newFrom.key
       )
+    } else if (action === 'swap' && fromParentModel.children !== undefined && fromParentModel.children.length > 0 && parentIndex === -1 && (parentI === 'gchild')) {
+      const fromIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(newFrom.key)
+        // var objectFoundFrom = array[fromElementPos]
+      const toIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(toModel.key)
+        // var objectFoundTo = array[toElementPos]
+      const resultArray = swapArrayElements(fromParentModel.children, fromIndex, toIndex)
+      const setChildArr = setChild(array, resultArray, fromParentModel.key)
+      $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', setChildArr)
     }
   }
   // Then the from node is added to the last bit in the to node.
@@ -141,7 +151,7 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
     /**
      * checking if the parent is exist in the array if not exists it means its from main parent
      */
-  } else if (action === 'swap' && parentIndex === -1) {
+  } else if (action === 'swap' && parentIndex === -1 && parentI !== 'gchild') {
     var fromElementPos = array.map(function (x) { return x.key }).indexOf(newFrom.key)
     // var objectFoundFrom = array[fromElementPos]
     var toElementPos = array.map(function (x) { return x.key }).indexOf(toModel.key)
@@ -156,6 +166,41 @@ var swapArrayElements = function (a, x, y) {
   if (a.length === 1) return a
   a.splice(y, 1, a.splice(x, 1, a[y])[0])
   return a
+}
+
+var getIndex = function (children, childKeyToRemove, from) {
+  for (let i = 0; i < children.length; i++) {
+    let child = children[i]
+    // check if the key is equal then remove i from children
+    if (child.key === childKeyToRemove) {
+      return from
+    }
+    /**
+     * check if child had children and call the function
+     */
+    if (child && child !== null && child !== undefined && child.children !== undefined && child.children.length > 0) {
+      return getIndex(child.children, childKeyToRemove, 'gchild')
+    }
+  }
+}
+
+var setChild = function (children, replaceArr, key) {
+  for (let i = 0; i < children.length; i++) {
+    let child = children[i]
+    // check if the key is equal then remove i from children
+    let idx = children.map(function (x) { return x.key }).indexOf(key)
+    if (idx > -1) {
+      child[idx] = replaceArr
+    }
+    /**
+     * check if child had children and call the function
+     */
+    if (child && child !== null && child !== undefined && child.children !== undefined && child.children.length > 0) {
+      setChild(child.children, replaceArr, key)
+    }
+  }
+
+  return children
 }
 
 export { findRootRight, exchangeRightData }
