@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container fluid v-if="pathVal === 'Tables'">
+    <v-container fluid>
       <v-flex xs12>
         <v-alert :value="showalert" type="error">Please choose only one dataset</v-alert>
         <v-alert :value="generateFileAlert" type="error">The delivery operation didn't go through. Please try again after sometime</v-alert>
@@ -11,6 +11,15 @@
           <v-btn :to="{ name: 'edittable', params: { datasetString: 'new', tableString: 'new' }, query: {debug: true }}" slot="activator" @click="createNewTable">Create a New Table</v-btn>
           <span>Click to Create a New Table</span>
         </v-tooltip>
+        <v-btn :disabled="!checked"  @click='fileDelivery'>
+          Create Delivery File
+        </v-btn>
+        <v-select
+          :items="programs"
+          label="Select a Program"
+          v-model="program"
+          @change="externalFilterChanged(program)">
+        </v-select>
       </v-flex>
       <v-flex xs12 text-center class="pa-2">
         <ag-grid-vue style="width: 100%; height: 400px;"
@@ -22,9 +31,6 @@
         </ag-grid-vue>
       </v-flex>
       <v-flex xs12 class="text-xs-right">
-        <v-btn :disabled="!checked"  @click='fileDelivery'>
-          Create Delivery File
-        </v-btn>
         <v-dialog v-model="dialog">
           <v-card>
             <v-card-text>Do you want to generate XML for the selected tables? {{ this.exportTablesList }}</v-card-text>
@@ -71,7 +77,8 @@
         generateFileAlert: false,
         errors: {},
         showSuccess: false,
-        viewMenu: false
+        viewMenu: false,
+        program: ''
       }
     },
     components: {
@@ -82,18 +89,32 @@
     methods: {
       createColDefs () {
         return [
-          {headerName: 'Table ID', field: 'edit', cellRendererFramework: 'edit-component', cellStyle: {textAlign: 'left'}, icons: {sortAscending: '<i class="fa fa-sort-alpha-asc"/>', sortDescending: '<i class="fa fa-sort-alpha-desc"/>'}},
-          {headerName: 'Program', field: 'programString', icons: {sortAscending: '<i class="fa fa-sort-alpha-asc"/>', sortDescending: '<i class="fa fa-sort-alpha-desc"/>'}, cellStyle: {textAlign: 'left'}},
-          {headerName: 'Dataset', field: 'datasetString', icons: {sortAscending: '<i class="fa fa-sort-alpha-asc"/>', sortDescending: '<i class="fa fa-sort-alpha-desc"/>'}, cellStyle: {textAlign: 'left'}},
+          {headerName: 'Table ID', field: 'edit', cellRendererFramework: 'edit-component', cellStyle: {textAlign: 'left'}, icons: {sortAscending: '<i class="fa fa-sort-alpha-asc"/>', sortDescending: '<i class="fa fa-sort-alpha-desc"/>'}, filter: 'agTextColumnFilter'},
+          // {headerName: 'Program', field: 'programString', icons: {sortAscending: '<i class="fa fa-sort-alpha-asc"/>', sortDescending: '<i class="fa fa-sort-alpha-desc"/>'}, cellStyle: {textAlign: 'left'}, filter: 'agTextColumnFilter'},
+          {headerName: 'Dataset', field: 'datasetString', icons: {sortAscending: '<i class="fa fa-sort-alpha-asc"/>', sortDescending: '<i class="fa fa-sort-alpha-desc"/>'}, cellStyle: {textAlign: 'left'}, filter: 'agTextColumnFilter'},
           /* {headerName: 'Table ID', field: 'tableString', icons: {sortAscending: '<i class="fa fa-sort-alpha-asc"/>', sortDescending: '<i class="fa fa-sort-alpha-desc"/>'}, cellStyle: {textAlign: 'left'}}, */
-          {headerName: 'Component', field: 'componentString', icons: {sortAscending: '<i class="fa fa-sort-alpha-asc"/>', sortDescending: '<i class="fa fa-sort-alpha-desc"/>'}, cellStyle: {textAlign: 'left'}},
-          {headerName: 'Display Label', field: 'displayLabel', icons: {sortAscending: '<i class="fa fa-sort-alpha-asc"/>', sortDescending: '<i class="fa fa-sort-alpha-desc"/>'}, cellStyle: {textAlign: 'left'}},
-          {headerName: 'Last Updated By', field: 'lastUpdatedBy', suppressSorting: true, cellStyle: {textAlign: 'left'}},
+          {headerName: 'Component', field: 'componentString', icons: {sortAscending: '<i class="fa fa-sort-alpha-asc"/>', sortDescending: '<i class="fa fa-sort-alpha-desc"/>'}, cellStyle: {textAlign: 'left'}, filter: 'agTextColumnFilter'},
+          {headerName: 'Display Label', field: 'displayLabel', icons: {sortAscending: '<i class="fa fa-sort-alpha-asc"/>', sortDescending: '<i class="fa fa-sort-alpha-desc"/>'}, cellStyle: {textAlign: 'left'}, filter: 'agTextColumnFilter'},
+          {headerName: 'Last Updated By', field: 'lastUpdatedBy', suppressSorting: true, cellStyle: {textAlign: 'left'}, filter: 'agTextColumnFilter'},
           {headerName: 'Last Updated', field: 'lastUpdated', suppressSorting: true, cellStyle: {textAlign: 'left'}},
           {headerName: 'Last Delivered', field: 'lastDelivered', suppressSorting: true, cellStyle: {textAlign: 'left'}},
           {headerName: 'Delete', field: 'delete', cellRendererFramework: 'delete-component', suppressSorting: true},
           {headerName: 'Deliver', field: 'deliver', suppressSorting: true, headerCheckboxSelection: true, checkboxSelection: function (params) { if (params.data.readyToDeliver === true) { return true } else { return false } }}
         ]
+      },
+      isExternalFilterPresent () {
+        return this.program !== ''
+      },
+      doesExternalFilterPass (node) {
+        switch (this.program) {
+          case this.program: return node.data.programString === this.program
+          default: return true
+        }
+      },
+      externalFilterChanged (newValue) {
+        console.log('----------', newValue)
+        this.program = newValue
+        this.gridOptions.api.onFilterChanged()
       },
       onRowDataChanged () {
         Vue.nextTick(() => {
@@ -165,9 +186,13 @@
       this.$store.dispatch('tables/getTables')
       this.gridOptions = {
         rowHeight: 40,
+        gridAutoHeight: true,
+        // animateRows: true,
+        enableFilter: true,
+        isExternalFilterPresent: this.isExternalFilterPresent,
+        doesExternalFilterPass: this.doesExternalFilterPass,
         enableColResize: true,
         enableSorting: true,
-        enableFilter: true,
         sortingOrder: ['asc', 'desc'],
         rowSelection: 'multiple',
         isRowSelectable: function (params) {
@@ -185,11 +210,9 @@
       }
     },
     computed: {
-      crumbs () {
-        this.pathVal = this.$route.name
-      },
       ...mapGetters({
-        tablesList: 'tables/tablesList'
+        tablesList: 'tables/tablesList',
+        programs: 'userAndPrograms/programs'
       })
     },
     watch: {
