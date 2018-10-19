@@ -17,6 +17,7 @@
         <v-select
           :items="programs"
           label="Select a Program"
+          clearable
           v-model="program"
           @change="externalFilterChanged(program)">
         </v-select>
@@ -78,7 +79,7 @@
         errors: {},
         showSuccess: false,
         viewMenu: false,
-        program: ''
+        program: undefined
       }
     },
     components: {
@@ -103,7 +104,9 @@
         ]
       },
       isExternalFilterPresent () {
-        return this.program !== ''
+        // if program is not undefined, then we are filtering
+        console.log('===========', this.program)
+        return this.program !== undefined
       },
       doesExternalFilterPass (node) {
         switch (this.program) {
@@ -113,8 +116,10 @@
       },
       externalFilterChanged (newValue) {
         console.log('----------', newValue)
-        this.program = newValue
-        this.gridOptions.api.onFilterChanged()
+        if (newValue !== '' && newValue !== 'undefined') {
+          this.program = newValue
+          this.gridOptions.api.onFilterChanged()
+        }
       },
       onRowDataChanged () {
         Vue.nextTick(() => {
@@ -187,7 +192,7 @@
       this.gridOptions = {
         rowHeight: 40,
         gridAutoHeight: true,
-        // animateRows: true,
+        animateRows: true,
         enableFilter: true,
         isExternalFilterPresent: this.isExternalFilterPresent,
         doesExternalFilterPass: this.doesExternalFilterPass,
