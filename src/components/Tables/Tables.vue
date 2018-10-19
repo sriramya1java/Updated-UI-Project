@@ -191,7 +191,7 @@
       this.$store.dispatch('tables/getTables')
       this.gridOptions = {
         rowHeight: 40,
-        gridAutoHeight: true,
+        //  gridAutoHeight: true,
         animateRows: true,
         enableFilter: true,
         isExternalFilterPresent: this.isExternalFilterPresent,

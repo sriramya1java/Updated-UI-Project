@@ -6,6 +6,13 @@
           <v-btn :to="{ name: 'editnote', params: { programString: 'new', noteString: 'new' }, query: { debug: true }}" slot="activator">Create a New Note</v-btn>
           <span>Click to Create a New Note</span>
         </v-tooltip>
+        <v-select
+          :items="programs"
+          label="Select a Program"
+          clearable
+          v-model="program"
+          @change="externalFilterChanged(program)">
+        </v-select>
       </v-flex>
       <v-flex xs12 text-center class="pa-2">
         <ag-grid-vue style="width: 100%; height: 400px;"
@@ -57,6 +64,24 @@
           {headerName: 'Delete', field: 'delete', cellRendererFramework: 'delete-component', suppressSorting: true}
         ]
       },
+      isExternalFilterPresent () {
+        // if program is not undefined, then we are filtering
+        console.log('===========', this.program)
+        return this.program !== undefined
+      },
+      doesExternalFilterPass (node) {
+        switch (this.program) {
+          case this.program: return node.data.programString === this.program
+          default: return true
+        }
+      },
+      externalFilterChanged (newValue) {
+        console.log('----------', newValue)
+        if (newValue !== '' && newValue !== 'undefined') {
+          this.program = newValue
+          this.gridOptions.api.onFilterChanged()
+        }
+      },
       onRowDataChanged () {
         Vue.nextTick(() => {
           this.gridOptions.api.sizeColumnsToFit()
@@ -76,6 +101,10 @@
         enableColResize: true,
         enableSorting: true,
         rowSelection: 'multiple',
+        animateRows: true,
+        enableFilter: true,
+        isExternalFilterPresent: this.isExternalFilterPresent,
+        doesExternalFilterPass: this.doesExternalFilterPass,
         suppressRowClickSelection: true,
         columnDefs: this.createColDefs(),
         onGridReady: function (params) {
@@ -88,7 +117,8 @@
         this.pathVal = this.$route.name
       },
       ...mapGetters({
-        notesList: 'notes/notesList'
+        notesList: 'notes/notesList',
+        programs: 'userAndPrograms/programs'
       })
     },
     watch: {
