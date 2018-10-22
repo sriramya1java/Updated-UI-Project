@@ -164,7 +164,9 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
 
 var swapArrayElements = function (a, x, y) {
   if (a.length === 1) return a
-  a.splice(y, 1, a.splice(x, 1, a[y])[0])
+  // a.splice(y, 1, a.splice(x, 1, a[y])[0])
+  // return a
+  a.splice(y, 0, a.splice(x, 1)[0])
   return a
 }
 
