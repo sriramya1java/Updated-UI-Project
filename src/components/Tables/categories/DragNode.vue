@@ -291,6 +291,7 @@
       },
       dragStart (e) {
         this.dragStartWidth = e.clientX
+        this.$store.commit('categories/SET_START_DRAG_WIDTH', this.dragStartWidth)
         e.dataTransfer.effectAllowed = 'move'
         e.dataTransfer.setData('text/plain', 'asdad')
         return true
