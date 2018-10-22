@@ -68,7 +68,9 @@
         isEdit: false,
         labelOverride: '',
         resetLabel: false,
-        swapOrChild: 'child'
+        swapOrChild: 'child',
+        dragStartWidth: 0,
+        dragLeaveWidth: 0
       }
     },
     props: {
@@ -283,10 +285,12 @@
         }
       },
       drag (e) {
+        console.log(e.clientX)
         fromData = this
         rootTree.emitDrag(this.model, this, e)
       },
       dragStart (e) {
+        this.dragStartWidth = e.clientX
         e.dataTransfer.effectAllowed = 'move'
         e.dataTransfer.setData('text/plain', 'asdad')
         return true
@@ -303,6 +307,10 @@
         rootTree.emitDragEnter(this.model, this, e)
       },
       dragLeave (e) {
+        this.dragLeaveWidth = 0
+        if (e && e !== undefined && e.clientX) {
+          this.dragLeaveWidth = e.clientX
+        }
         this.styleObj.opacity = 1
         rootTree.emitDragLeave(this.model, this, e)
       },
@@ -313,20 +321,17 @@
         if (!this.allowDrop(this.model, this)) {
           return
         }
-        if (e && e !== undefined && e.clientX) {
-          console.log(e.clientX)
-          this.swapOrChild = e.clientX > 1086 ? 'child' : 'swap'
-          console.log(this.swapOrChild)
-        }
+        console.log(this.dragStartWidth)
+        console.log(this.dragLeaveWidth)
+        this.swapOrChild = this.dragLeaveWidth > this.dragStartWidth ? 'child' : 'swap'
+        console.log(this.swapOrChild)
         toData = this
         this.from = fromData.fromWhere
         console.log('from', this.from)
         if (this.from === 'left') {
           exchangeLeftData(rootTree, fromData, toData)
         } else if (this.from === 'right') {
-          console.log('before swapping node ------------', this.categoriesList1[0].children)
           exchangeRightData(rootTree, fromData, toData, this.categoriesList1[0].children, this.swapOrChild)
-          console.log('after swapping------------', this.$store.state.categories.categoriesList1.children)
         }
         rootTree.emitDrop(this.model, this, e)
       },
@@ -356,7 +361,6 @@
     },
     created () {
       rootTree = this.from === 'left' ? findRoot(this) : findRootRight(this)
-      console.log('this ---------', this)
     }
   }
 </script>
