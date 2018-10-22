@@ -290,9 +290,7 @@
         rootTree.emitDrag(this.model, this, e)
       },
       dragStart (e) {
-        this.dragStartWidth = e.clientX
-        this.$store.commit('categories/SET_START_DRAG_WIDTH', this.dragStartWidth)
-        console.log('got from store--------------', this.$store.state.categories.startDragWidth)
+        this.$store.commit('categories/SET_START_DRAG_WIDTH', e.clientX)
         e.dataTransfer.effectAllowed = 'move'
         e.dataTransfer.setData('text/plain', 'asdad')
         return true
@@ -323,8 +321,7 @@
         if (!this.allowDrop(this.model, this)) {
           return
         }
-        console.log(this.dragStartWidth)
-        console.log(this.dragLeaveWidth)
+        this.dragStartWidth = this.$store.state.categories.startDragWidth
         this.swapOrChild = this.dragLeaveWidth > this.dragStartWidth ? 'child' : 'swap'
         console.log(this.swapOrChild)
         toData = this
