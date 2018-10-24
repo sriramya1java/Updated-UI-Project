@@ -8,6 +8,7 @@
   <div class="text-xs-left">
     <v-btn small v-on:click="expandAll">Expand All</v-btn>
     <v-btn small v-on:click="collapseAll">Collapse All</v-btn>
+    <v-btn small v-on:click="moveTableCategories" :disabled="this.categoriesList1[0].children.length > 0">Move all</v-btn>
   </div>
   <div class="main">
     <div class="container" style="width: 100%">
@@ -75,15 +76,6 @@ export default{
         return this.$store.state.categories.categoriesList
       }
     },
-    verticalDimensionsSelected () {
-      return this.$store.state.verticalDimensionsSelected
-    },
-    horizontalDimensionsSelected () {
-      return this.$store.state.horizontalDimensionsSelected
-    },
-    outsideDimensionsSelected () {
-      return this.$store.state.outsideDimensionsSelected
-    },
     formatData () {
       return JSON.stringify(this.categoriesList, null, 2)
     },
@@ -96,6 +88,16 @@ export default{
     /* console.log(this.axesDimensionsSelected) */
   },
   methods: {
+    moveTableCategories () {
+      let array = this.categoriesList
+      this.$store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', array)
+      let list = this.categoriesList1[0].children
+      if (list && list !== undefined) {
+        list.forEach(x => {
+          x.key = Math.floor(Math.random() * 1000000000000) + 1
+        })
+      }
+    },
     allowDrag (model, component) {
       return true
     },
