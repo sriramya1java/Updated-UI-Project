@@ -156,7 +156,9 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
     // var objectFoundFrom = array[fromElementPos]
     var toElementPos = array.map(function (x) { return x.key }).indexOf(toModel.key)
     // var objectFoundTo = array[toElementPos]
-    $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', swapArrayElements(array, fromElementPos, toElementPos))
+    var resultArray = swapArrayElements(array, fromElementPos, toElementPos)
+    console.log(resultArray)
+    $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', resultArray)
   } else if (action === 'child') {
     toModel.children = toModel.children.concat([newFrom])
   }
@@ -192,7 +194,7 @@ var setChild = function (children, replaceArr, key) {
     // check if the key is equal then remove i from children
     let idx = children.map(function (x) { return x.key }).indexOf(key)
     if (idx > -1) {
-      child[idx] = replaceArr
+      child = replaceArr
     }
     /**
      * check if child had children and call the function
