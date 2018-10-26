@@ -141,6 +141,7 @@
       },
       createNewTable () {
         this.$store.dispatch('tables/createNewTable')
+        this.$store.commit('dimensions/SET_DIMENSIONS', [{'editable': true, 'label': 'Age Group', 'id': 'AGEGROUP', 'type': 'GEO'}, {'editable': true, 'label': 'Date', 'id': 'DATE_', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Description of DATE values', 'id': 'DATE_DESC', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Hispanic Origin', 'id': 'HISP', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Race', 'id': 'RACE', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Sex', 'id': 'SEX', 'type': 'SIMPLE'}, {'editable': true, 'label': 'Universe', 'id': 'UNIVERSE', 'type': 'GCT'}, {'editable': true, 'label': 'Measure', 'id': 'MEASURE', 'type': 'MEASURE'}, {'editable': false, 'label': 'Gct', 'id': 'GCT', 'type': 'GCT'}])
       },
       fileDelivery () {
         let tableValues = []
