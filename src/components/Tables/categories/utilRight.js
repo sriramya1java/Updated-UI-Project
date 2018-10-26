@@ -1,4 +1,5 @@
 import store from '../../../../store/store'
+import _ from 'lodash'
 
 var $store = store
 const findRootRight = which => {
@@ -75,7 +76,7 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
    */
   const fromParentModel = from.$parent.model
   const parentIndex = array.map(function (x) { return x.key }).indexOf(fromParentModel.key)
-  const parentI = getIndex(array, fromParentModel.key, 'child')
+  let parentI = getIndex(array, fromParentModel.key, 'child')
   console.log('parentIndex : ' + parentIndex)
   console.log('parentI : ' + parentI)
   // If the two are parent-child relationships. Move the from node to the to node level and drop it to the next one
@@ -124,18 +125,20 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
     /**
      * checking if the parent is exist in the array if exists it means its from children
      */
-    if (action === 'swap' && fromParentModel.children !== undefined && fromParentModel.children.length > 0 && parentIndex > -1 && parentI !== 'gchild') {
+    if (action === 'swap' && fromParentModel.children !== undefined && fromParentModel.children.length > 0 && parentI === 'gchild') {
+      parentI = 'child'
       const fromIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(newFrom.key)
       // var objectFoundFrom = array[fromElementPos]
       const toIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(toModel.key)
       // var objectFoundTo = array[toElementPos]
-      array[parentIndex].children = swapArrayElements(fromParentModel.children, fromIndex, toIndex)
-      $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', array)
+      const resultArray = swapArrayElements(fromParentModel.children, fromIndex, toIndex)
+      const setChildArr = setChild(array, resultArray, fromParentModel.key)
+      $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', setChildArr)
     } else if (action === 'child') {
       fromParentModel.children = fromParentModel.children.filter(
         item => item.key !== newFrom.key
       )
-    } else if (action === 'swap' && fromParentModel.children !== undefined && fromParentModel.children.length > 0 && parentIndex === -1 && (parentI === 'gchild')) {
+    } /* else if (action === 'swap' && fromParentModel.children !== undefined && fromParentModel.children.length > 0 && parentIndex === -1 && (parentI === 'gchild')) {
       const fromIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(newFrom.key)
         // var objectFoundFrom = array[fromElementPos]
       const toIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(toModel.key)
@@ -143,7 +146,7 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
       const resultArray = swapArrayElements(fromParentModel.children, fromIndex, toIndex)
       const setChildArr = setChild(array, resultArray, fromParentModel.key)
       $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', setChildArr)
-    }
+    } */
   }
   // Then the from node is added to the last bit in the to node.
   if (!toModel.children) {
@@ -151,7 +154,7 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
     /**
      * checking if the parent is exist in the array if not exists it means its from main parent
      */
-  } else if (action === 'swap' && parentIndex === -1 && parentI !== 'gchild') {
+  } else if (action === 'swap' && parentIndex === -1 && parentI === 'gchild') {
     var fromElementPos = array.map(function (x) { return x.key }).indexOf(newFrom.key)
     // var objectFoundFrom = array[fromElementPos]
     var toElementPos = array.map(function (x) { return x.key }).indexOf(toModel.key)
@@ -172,20 +175,23 @@ var swapArrayElements = function (a, x, y) {
   return a
 }
 
-var getIndex = function (children, childKeyToRemove, from) {
-  for (let i = 0; i < children.length; i++) {
-    let child = children[i]
-    // check if the key is equal then remove i from children
-    if (child.key === childKeyToRemove) {
-      return from
-    }
-    /**
-     * check if child had children and call the function
-     */
-    if (child && child !== null && child !== undefined && child.children !== undefined && child.children.length > 0) {
-      return getIndex(child.children, childKeyToRemove, 'gchild')
+var getIndex = function (items, id, from) {
+  let found
+  let result = []
+  if (items !== undefined && items !== null) {
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].key === id) {
+        result.push(items[i])
+      } else if (_.isArray(items[i].children)) {
+        found = getIndex(id, items[i].children, 'gchild')
+        if (found !== undefined && found !== null && found.length) {
+          result = result.concat(found)
+          from = 'gchild'
+        }
+      }
     }
   }
+  return from
 }
 
 var setChild = function (children, replaceArr, key) {
