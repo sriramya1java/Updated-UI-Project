@@ -6,6 +6,25 @@ Vue.use(VueResource)
 const state = {
   categoriesList: [{'label': '4/1/2010 Census Population', 'id': '1'}, {'label': '4/1/2010 population estimates base', 'id': '2'}, {'label': '7/1/2010 population estimate', 'id': '3'}, {'label': '7/1/2011 population estimate', 'id': '4'}, {'label': '7/1/2012 population estimate', 'id': '5'}, {'label': '7/1/2013 population estimate', 'id': '6'}, {'label': '7/1/2014 population estimate', 'id': '7'}, {'label': '7/1/2015 population estimate', 'id': '8'}, {'label': '7/1/2016 population estimate', 'id': '9'}, {'label': '7/1/2017 population estimate', 'id': '10'}, {'label': '7/1/2018 population estimate', 'id': '11'}, {'label': '7/1/2019 population estimate', 'id': '12'}, {'label': '7/1/2020 population estimate', 'id': '13'}],
   categoriesList1: [ {id: 'Categories', label: 'Categories', children: []} ],
+  categoriesList1Original: [ {id: 'Categories',
+    label: 'Categories',
+    children: [{
+      'label': '4/1/2010 Census Population',
+      'id': '1',
+      'children': [],
+      'hidden': false,
+      'labelOverride': '',
+      'key': 752806395225
+    },
+    {
+      'label': '4/1/2010 population estimates base',
+      'id': '2',
+      'children': [],
+      'hidden': false,
+      'labelOverride': '',
+      'key': 262818027145
+    }
+    ]}],
   editingCategory: {},
   startDragWidth: ''
 }

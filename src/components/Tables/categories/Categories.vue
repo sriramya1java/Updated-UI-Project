@@ -32,12 +32,13 @@
   </div>
   <div class="text-xs-right pt-4">
     <v-btn slot="activator">Save</v-btn>
-    <v-btn slot="activator">Discard</v-btn>
+    <v-btn slot="activator" @click="detectChanges">Discard</v-btn>
   </div>
 </div>
 </template>
 <script>
 import VueDragTree from './VueDragTree.vue'
+import _ from 'lodash'
 export default{
   props: ['axesDimensionsSelected'],
   components: {
@@ -58,6 +59,11 @@ export default{
     categoriesList1: {
       get () {
         return this.$store.state.categories.categoriesList1
+      }
+    },
+    categoriesList1Original: {
+      get () {
+        return this.$store.state.categories.categoriesList1Original
       }
     },
     categoriesList: {
@@ -141,6 +147,19 @@ export default{
     },
     expandAll () {
       this.autoExpand = true
+    },
+    detectChanges () {
+      console.log('detecting category changes')
+      let array1 = this.categoriesList1[0].children
+      let array2 = this.categoriesList1Original[0].children
+      console.log(JSON.stringify(array1))
+      console.log(JSON.stringify(array2))
+      var result = _.isEqual(
+        _.omit(array1, 'key'),
+        _.omit(array2, 'key')
+      )
+      if (result) alert(true)
+      else alert(false)
     }
   },
   watch: {
