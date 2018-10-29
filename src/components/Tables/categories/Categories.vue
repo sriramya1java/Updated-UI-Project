@@ -149,17 +149,19 @@ export default{
       this.autoExpand = true
     },
     detectChanges () {
-      console.log('detecting category changes')
-      let array1 = this.categoriesList1[0].children
-      let array2 = this.categoriesList1Original[0].children
-      console.log(JSON.stringify(array1))
-      console.log(JSON.stringify(array2))
-      var result = _.isEqual(
-        _.omit(array1, 'key'),
-        _.omit(array2, 'key')
-      )
-      if (result) alert(true)
-      else alert(false)
+      /* var result = _.isEqual(
+        _.omit(obj1, ['creation', 'deletion']),
+        _.omit(obj2, ['creation', 'deletion'])
+      ) */
+      let x = _.omit(this.categoriesList1.children, ['key'])
+      let y = _.omit(this.categoriesList1Original.children, ['key'])
+      console.log(x)
+      console.log(y)
+      let result = _.isEqual(x, y)
+      alert(result)
+    },
+    isArrayEqual  (x, y) {
+      return _(x).differenceWith(y, _.isEqual).isEmpty()
     }
   },
   watch: {
