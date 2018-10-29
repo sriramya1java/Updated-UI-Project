@@ -70,7 +70,8 @@
         resetLabel: false,
         swapOrChild: 'child',
         dragStartWidth: 0,
-        dragLeaveWidth: 0
+        dragLeaveWidth: 0,
+        node: {}
       }
     },
     props: {
@@ -141,29 +142,33 @@
       },
       editCategory (event, data) {
         // let children = this.categoriesList1[0].children
+        this.node = data
         this.isEdit = true
       },
       addNode (event, data) {
         this.changeType()
       },
       resetCategory (event, data) {
-        let children = this.categoriesList1[0].children
-        this.traverseCategories(children, 'reset')
+        // let children = this.categoriesList1[0].children
+        // this.traverseCategories(children, 'reset')
+        data.labelOverride = ''
       },
       deleteCategory (event, child) {
         let parent = this.categoriesList1[0].children
         this.removeFromTree(parent, child.key)
       },
       hideShowCategory (event, data) {
-        let children = this.categoriesList1[0].children
-        this.traverseCategories(children, 'hideShow')
+        // let children = this.categoriesList1[0].children
+        // this.traverseCategories(children, 'hideShow')
+        data.hidden = !data.hidden
       },
       saveEditCategory () {
-        let children = this.categoriesList1[0].children
-        this.traverseCategories(children, 'edit')
+        // let children = this.categoriesList1[0].children
+        // this.traverseCategories(children, 'edit')
         this.isEdit = false
+        this.node.labelOverride = this.labelOverride
       },
-      traverseCategories (children, operation) {
+      /* traverseCategories (children, operation) {
         for (let i = 0; i < children.length; i++) {
           let tableChild = children[i]
           // Do stuff
@@ -182,10 +187,8 @@
           if (tableChild.children.length > 0) {
             this.traverseCategories(tableChild.children, operation)
           }
-/*          console.log('objects++++++++++++++++++++++', tableChild)
-          console.log(this.editingCategory) */
         }
-      },
+      }, */
       handler (e, data) {
         // if (data.id !== 'Categories' && this.fromWhere === 'right') {
         if (this.fromWhere === 'right') {

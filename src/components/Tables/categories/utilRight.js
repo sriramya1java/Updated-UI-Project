@@ -55,7 +55,6 @@ const isLinealRelation = (from, to) => {
 }
 
 /**
- * 交换两节点数据
  * Exchange two nodes of data
  * @param rootCom Root component（vue-drag-tree.vue）
  * @param from Dragged node component Vnode data
