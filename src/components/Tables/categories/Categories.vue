@@ -149,15 +149,11 @@ export default{
       this.autoExpand = true
     },
     detectChanges () {
-      /* var result = _.isEqual(
-        _.omit(obj1, ['creation', 'deletion']),
-        _.omit(obj2, ['creation', 'deletion'])
-      ) */
-      let x = _.omit(this.categoriesList1.children, ['key'])
-      let y = _.omit(this.categoriesList1Original.children, ['key'])
+      let x = _.omit(this.categoriesList1[0].children, 'key')
+      let y = _.omit(this.categoriesList1Original[0].children, 'key')
       console.log(x)
       console.log(y)
-      let result = _.isEqual(x, y)
+      let result = _.isEqualWith(x, y)
       alert(result)
     },
     isArrayEqual  (x, y) {
