@@ -8,22 +8,76 @@ const state = {
   categoriesList1: [ {id: 'Categories', label: 'Categories', children: []} ],
   categoriesList1Original: [ {id: 'Categories',
     label: 'Categories',
-    children: [{
-      'label': '4/1/2010 Census Population',
-      'id': '1',
-      'children': [],
-      'hidden': false,
-      'labelOverride': '',
-      'key': 752806395225
-    },
-    {
-      'label': '4/1/2010 population estimates base',
-      'id': '2',
-      'children': [],
-      'hidden': false,
-      'labelOverride': '',
-      'key': 262818027145
-    }
+    children: [
+      {
+        'label': '4/1/2010 Census Population',
+        'id': '1',
+        'children': [
+          {
+            'label': '4/1/2010 Census Population',
+            'id': '1',
+            'children': [
+              {
+                'label': '4/1/2010 Census Population',
+                'id': '1',
+                'children': [],
+                'hidden': false,
+                'labelOverride': '',
+                'key': 534083257356
+              }
+            ],
+            'hidden': false,
+            'labelOverride': '',
+            'key': 918279982572
+          }
+        ],
+        'hidden': false,
+        'labelOverride': '',
+        'key': 361002304367
+      },
+      {
+        'label': '4/1/2010 population estimates base',
+        'id': '2',
+        'children': [
+          {
+            'label': '4/1/2010 population estimates base',
+            'id': '2',
+            'children': [
+              {
+                'label': '4/1/2010 population estimates base',
+                'id': '2',
+                'children': [],
+                'hidden': false,
+                'labelOverride': '',
+                'key': 346343526144
+              }
+            ],
+            'hidden': false,
+            'labelOverride': '',
+            'key': 813078010538
+          }
+        ],
+        'hidden': false,
+        'labelOverride': '',
+        'key': 669085343281
+      },
+      {
+        'label': '7/1/2010 population estimate',
+        'id': '3',
+        'children': [
+          {
+            'label': '7/1/2010 population estimate',
+            'id': '3',
+            'children': [],
+            'hidden': false,
+            'labelOverride': '',
+            'key': 4914643406
+          }
+        ],
+        'hidden': false,
+        'labelOverride': '',
+        'key': 315268396509
+      }
     ]}],
   editingCategory: {},
   startDragWidth: ''
