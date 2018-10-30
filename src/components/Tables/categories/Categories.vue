@@ -149,8 +149,12 @@ export default{
       this.autoExpand = true
     },
     detectChanges () {
-      let x = _.omit(this.categoriesList1[0].children, 'key')
-      let y = _.omit(this.categoriesList1Original[0].children, 'key')
+     // let a = _.cloneDeep(this.categoriesList1[0].children)
+     // let b = _.cloneDeep(this.categoriesList1Original[0].children)
+      var x = _.map(this.categoriesList1[0].children, function (o) { return _.omit(o, 'key') })
+      var y = _.map(this.categoriesList1Original[0].children, function (o) { return _.omit(o, 'key') })
+      console.log(this.categoriesList1[0].children)
+      console.log(this.categoriesList1Original[0].children)
       console.log(x)
       console.log(y)
       let result = _.isEqualWith(x, y)
