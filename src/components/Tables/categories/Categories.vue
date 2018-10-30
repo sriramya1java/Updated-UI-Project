@@ -148,19 +148,23 @@ export default{
     expandAll () {
       this.autoExpand = true
     },
+    removeKey (node) {
+      delete node['key']
+      if (node.children !== undefined && node.children.length > 0) {
+        node.children.forEach(c => this.removeKey(c))
+      }
+    },
     detectChanges () {
-     // let a = _.cloneDeep(this.categoriesList1[0].children)
-     // let b = _.cloneDeep(this.categoriesList1Original[0].children)
+      let a = _.cloneDeep(this.categoriesList1[0].children)
+      let b = _.cloneDeep(this.categoriesList1Original[0].children)
       /**
        * mapping first and omit values if you need to clone objects use above instead object.assign
        */
-      var x = _.map(this.categoriesList1[0].children, function (o) { return _.omit(o, 'key') })
-      var y = _.map(this.categoriesList1Original[0].children, function (o) { return _.omit(o, 'key') })
-      console.log(this.categoriesList1[0].children)
-      console.log(this.categoriesList1Original[0].children)
-      console.log(x)
-      console.log(y)
-      let result = _.isEqualWith(x, y)
+      a.forEach(this.removeKey)
+      b.forEach(this.removeKey)
+      console.log(a)
+      console.log(b)
+      let result = _.isEqualWith(a, b)
       alert(result)
     },
     isArrayEqual  (x, y) {
