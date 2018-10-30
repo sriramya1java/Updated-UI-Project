@@ -151,6 +151,9 @@ export default{
     detectChanges () {
      // let a = _.cloneDeep(this.categoriesList1[0].children)
      // let b = _.cloneDeep(this.categoriesList1Original[0].children)
+      /**
+       * mapping first and omit values if you need to clone objects use above instead object.assign
+       */
       var x = _.map(this.categoriesList1[0].children, function (o) { return _.omit(o, 'key') })
       var y = _.map(this.categoriesList1Original[0].children, function (o) { return _.omit(o, 'key') })
       console.log(this.categoriesList1[0].children)
