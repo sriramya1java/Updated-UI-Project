@@ -202,10 +202,36 @@
           fr.addEventListener('load', () => {
             this.noteObj.content = fr.result
             this.imageFile = files[0] // this is an image file that can be sent to server...
+            console.log(fr.result)
+            this.validateNoteContentTags(fr.result)
           })
         } else {
           this.fileName = ''
         }
+      },
+      validateNoteContentTags (result) {
+        // console.log(fr.result.length)
+        // console.log(fr.result)
+        // let s = this.noteObj.content.match(/<([^<]||<>)*>/)
+        // let s = this.noteObj.content.match(/<(.*?)>/g)
+        // s.forEach(function (x) { console.log(x) })
+        // let j = fr.result
+        let j = result
+        console.log(result)
+        let regex = /<(.*?)>/g
+        // let regex = /(<[^<]*>)/g
+        // let regex = /<\/?([a-z][a-z0-9]*)\b[^>]*>/g
+        let k = j.match(regex)
+        console.log('mathces', k)
+        console.log(k.every(this.presentInTheArray))
+      },
+      presentInTheArray (currentValue) {
+        let array1 = ['<b>', '</b>', '<i>', '</i>', '<h1>', '</h1>', '<h2>', '</h2>',
+          '<h3>', '</h3>', '<h4>', '</h4>', '<h5>', '</h5>', '<h6>', '</h6>', '<br>', '</br>', '<table>', '</table>',
+          '<tr>', '</tr>', '<td>', '</td>', '<a>', '</a>', '<href>', '<blockquote>', '</blockquote>', '<ul>', '</ul>',
+          '<li>', '</li>', '<ol>', '</ol>', '<br/>']
+        array1.includes(currentValue)
+        console.log(array1.includes(currentValue))
       },
       saveNote () {
         if (this.isEditing === false) {
