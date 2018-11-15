@@ -180,6 +180,8 @@
         &:hover {
           background: $blue600;
           color: $gray98;
+          width: 100%;
+          color: light
         }
       }
     }

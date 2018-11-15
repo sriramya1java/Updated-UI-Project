@@ -3,12 +3,12 @@
   <div :style='styleObj' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container' @contextmenu.prevent="handler($event, model)">
     <div :class="[isClicked ? 'is-clicked' : '', isHover ? 'is-hover': '']" @mouseover='mouseOver' @mouseout='mouseOut'>
       <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText'>
-        <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><i :class="this.open && model.children.length > 0 ? 'fa fa-minus' : !this.open && model.children.length > 0 ? 'fa fa-plus' : ''"></i></span>
+        <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><i :class="this.openFolder && model.children.length > 0 ? 'fa fa-minus' : !this.openFolder && model.children.length > 0 ? 'fa fa-plus' : ''"></i></span>
         <span class='text pl-2' v-if="showWhat === 'label' && !isEdit" :class="[model.labelOverride ? 'isOveridden' : '', model.hidden ? 'isHidden' : '']">{{model.labelOverride ? model.labelOverride : model.label}}</span>
-        <span class='text pl-2' v-if="showWhat === 'id'">{{model.id}}</span>
+        <span class='text pl-2' v-if="showWhat === 'id'" :class="model.labelOverride ? 'isOveridden' : ''">{{model.id ? model.id : model.labelOverride ? model.labelOverride : model.label}}</span>
       </div>
     </div>
-    <div class='treeMargin' v-show="open" v-if="childrenVisible || isFolder">
+    <div class='treeMargin' v-show="openFolder" v-if="childrenVisible || isFolder">
       <item v-for="item2 in model.children" :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :model="item2" :key='item2.key' :fromWhere='fromWhere' :autoExpand='autoExpand' :showWhat='showWhat' :defaultText='defaultText'></item>
     </div>
   </div>
@@ -19,6 +19,7 @@
         <li @click="deleteCategory($event.target.innerText, child.data)">Remove Category from tree</li>
         <li @click="hideShowCategory($event.target.innerText, child.data)">Hide/SHow category</li>
         <li @click="addNode($event.target.innerText, child.data)">Add category</li>
+        <li @click="addChildAbove($event.target.innerText, child.data)">Add category above</li>
       </ul>
     </vue-context>
     <v-dialog v-model="isEdit" max-width="500px" max-height="500px">
@@ -56,7 +57,7 @@
     },
     data () {
       return {
-        open: false,
+        openFolder: false,
         isClicked: false, // The current node is clicked
         isHover: false, // The current node is hover
         styleObj: {
@@ -122,7 +123,7 @@
         return this.allowDrag(this.model, this)
       },
       childrenVisible () {
-        this.open = this.autoExpand
+        this.openFolder = this.autoExpand
         this.isClicked = this.autoExpand
         return this.autoExpand || this.showChildren
       }
@@ -168,27 +169,6 @@
         this.isEdit = false
         this.node.labelOverride = this.labelOverride
       },
-      /* traverseCategories (children, operation) {
-        for (let i = 0; i < children.length; i++) {
-          let tableChild = children[i]
-          // Do stuff
-          if (this.editingCategory.key === tableChild.key) {
-            console.log(true)
-            console.log(tableChild)
-            if (operation === 'reset' || operation === 'edit') {
-              tableChild.labelOverride = operation === 'reset' ? '' : this.labelOverride
-            }
-            if (operation === 'hideShow') {
-              tableChild.hidden = !tableChild.hidden
-            }
-            console.log('after operations', this.categoriesList1[0].children)
-            console.log('after operations complete array', this.categoriesList1)
-          }
-          if (tableChild.children.length > 0) {
-            this.traverseCategories(tableChild.children, operation)
-          }
-        }
-      }, */
       handler (e, data) {
         // if (data.id !== 'Categories' && this.fromWhere === 'right') {
         if (this.fromWhere === 'right') {
@@ -200,7 +180,7 @@
       },
       toggle () {
         if (this.isFolder) {
-          this.open = !this.open
+          this.openFolder = !this.openFolder
         } else {
           this.showChildren = !this.showChildren
         }
@@ -208,14 +188,14 @@
         rootTree.emitCurNodeClicked(this.model, this)
         // Record the status of the node being clicked
         this.isClicked = !this.isClicked
-        // check if children and open all child on click
+        // check if children and openFolder all child on click
         if (this.$children && this.$children.length > 0) {
           // If it has children components.
           let childrenStack = this.$children
           while (childrenStack.length !== 0) {
             let item = childrenStack.shift()
             // same as it's parent
-            item.open = this.open
+            item.openFolder = this.openFolder
             if (item.$children && item.$children.length > 0) {
               childrenStack = childrenStack.concat(item.$children)
             }
@@ -249,7 +229,7 @@
         }
         if (!this.isFolder) {
           this.$set(this.model, 'children', [])
-          this.open = true || this.autoExpand
+          this.openFolder = true || this.autoExpand
           this.isClicked = true
         }
         this.addChild()
@@ -261,18 +241,56 @@
         this.isHover = false
       },
       addChild () {
+        // products.find(product => product.items.some(item => item.name === 'milk'))
         let d = new Date()
         let seconds = Math.round(d.getTime())
         console.log(seconds)
         if (this.fromWhere === 'right') {
           this.model.children.push({
             label: this.defaultText,
-            id: '_GRP_' + seconds,
+            // id: null,
             children: [],
             hidden: false,
             labelOverride: '',
             key: Math.floor(Math.random() * 1000000000000) + 1
           })
+        }
+      },
+      addChildAbove ($event, data) {
+        if (this.fromWhere === 'right') {
+          let array = this.categoriesList1[0].children
+          let d = new Date()
+          let seconds = Math.round(d.getTime())
+          let fromElementPos = array.map(function (x) { return x.key }).indexOf(data.key)
+          let newNode = {
+            label: this.defaultText,
+            id: '_GRP_' + seconds,
+            children: [],
+            hidden: false,
+            labelOverride: '',
+            key: Math.floor(Math.random() * 1000000000000) + 1
+          }
+          var resultArray = this.swapArrayElements(array, newNode, fromElementPos)
+          console.log('add node above', $event)
+          console.log('add node above', data)
+          console.log(seconds)
+          console.log(resultArray)
+        }
+      },
+      swapArrayElements (a, x, y) {
+        if (a.length === 1) return a
+        // a.splice(y, 1, a.splice(x, 1, a[y])[0])
+        // return a
+        a.splice(y, 0, a.splice(x, 1)[0])
+        return a
+      },
+      traverseCategories (children) {
+        for (let i = 0; i < children.length; i++) {
+          let tableChild = children[i]
+          // Do stuff
+          if (tableChild.children.length > 0) {
+            this.traverseCategories(tableChild.children)
+          }
         }
       },
       removeChild (id) {

@@ -5,6 +5,7 @@ import CreateEditTable from '@/components/Tables/CreateEditTable'
 import Notes from '@/components/Notes/Notes'
 import CreateEditNote from '@/components/Notes/CreateEditNote'
 import TableBasic from '@/components/Tables/TableBasicMetadata'
+import EditTableCategories from '@/components/Tables/EditTableCategories'
 /*
 import TableNotes from '@/components/Tables/TableNotes'
 import TableDimensions from '@/components/Tables/TableDimensions' */
@@ -22,6 +23,11 @@ export default new Router({
       path: '/tables',
       name: 'Tables',
       component: Tables
+    },
+    {
+      path: '/categories',
+      name: 'EditTableCategories',
+      component: EditTableCategories
     },
     {
       path: '/tables/edittable/:tableString',
