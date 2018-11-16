@@ -82,12 +82,14 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
   if (hasInclude(from, to)) {
     // If "parent" is the topmost node (the outermost data in the node array)
     const tempParent = to.$parent
+    console.log('tempParent', tempParent)
     const toModel = to.model
+    console.log('toModel', toModel)
     if (tempParent.$options._componentTag === 'vue-drag-tree') {
       // Add the from node to the root array
-      tempParent.newData.push(newFrom)
+      // tempParent.newData.push(newFrom)
       // Remove the from node information in to;
-      toModel.children = toModel.children.filter(item => item.key !== newFrom.key)
+      // toModel.children = toModel.children.filter(item => item.key !== newFrom.key)
       return
     }
 
