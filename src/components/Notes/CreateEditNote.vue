@@ -56,6 +56,7 @@
               </v-flex>
               <v-flex xs6 text-xs-left>
                 <v-btn @click='pickFile'>upload</v-btn>
+                <v-btn @click='openNotePreview'>preview note</v-btn>
               </v-flex>
               <v-flex xs2>
                 <v-subheader>Position: <span>*</span></v-subheader>
@@ -189,6 +190,12 @@
       },
       pickFile () {
         this.$refs.image.click()
+      },
+      openNotePreview () {
+        let myWindow = window.open('', 'myWindow', 'width=1000,height=1000')
+        console.log(this.noteObj.content)
+        console.log(this.noteObj)
+        myWindow.document.write(this.noteObj.content)
       },
       onFilePicked (e) {
         const files = e.target.files
