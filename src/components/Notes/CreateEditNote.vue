@@ -56,7 +56,7 @@
               </v-flex>
               <v-flex xs6 text-xs-left>
                 <v-btn @click='pickFile'>upload</v-btn>
-                <v-btn @click='openNotePreview'>preview note</v-btn>
+                <v-btn @click='showPreview = true'>preview note</v-btn>
               </v-flex>
               <v-flex xs2>
                 <v-subheader>Position: <span>*</span></v-subheader>
@@ -80,7 +80,7 @@
     </div>
     <v-dialog v-model="isSaved" width="400">
       <v-card>
-        <v-card-text>{{ message }}</v-card-text>
+        <v-card-text></v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn @click="isSaved = false">Ok</v-btn>
@@ -88,6 +88,16 @@
       </v-card>
     </v-dialog>
     <note-table-references class="pt-4" :data="this.$route.params"></note-table-references>
+    <v-dialog v-model="showPreview" width="400">
+      <v-card>
+        <v-card-title>Note Preview</v-card-title>
+        <v-card-text v-html="this.noteObj.content"></v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="showPreview = false">Ok</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -114,6 +124,7 @@
           lastEditedBy: ''
         },
         dialog: false,
+        showPreview: false,
         fileName: '',
         debug: false,
         id: 0,
@@ -173,7 +184,7 @@
           'lastUpdatedDate': 'June 28, 2018 02:47:52 pm',
           'deletable': false,
           'usedByTableCount': 0,
-          'noteContent': 'Notes:<br />\nThe estimates are based on the 2010 Census and reflect changes to the April 1, 2010\npopulation due to the Count Question Resolution program and geographic program revisions.\nMedian age is calculated based on single year of age. For population estimates methodology\nstatements, see <a href=\'http://www.census.gov/programs-surveys/popest/technical-documentation/methodology.html\'>\nhttp://www.census.gov/programs-surveys/popest/technical-documentation/methodology.html</a>.',
+          'noteContent': 'Notes:<br />\nThe estimates are based on the 2010 Census and reflect changes to the April 1, 2010\npopulation due to the Count Question Resolution program and geographic program revisions.\nMedian age is calculated based on single year of age. For population estimates methodology\nstatements, see <a href=\'http://www.census.gov/programs-surveys/popest/technical-documentation/methodology.html\'>\nhttp://www.census.gov/programs-surveys/popest/technical-documentation/methodology.html</a>. <ul><li>1</li><li>2</li></ul>',
           'hidden': true,
           'noteString': 'PEP_2016_PEPAGESEX-001',
           'programString': 'PEP'
@@ -273,20 +284,6 @@
 </script>
 <!-- Add "scoped" attribute to limit css to this component only -->
 <style scoped>
-  h1, h2 {
-    font-weight: normal;
-  }
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
-  a {
-    color: #42b983;
-  }
   span {
     color: #ff0000
   }

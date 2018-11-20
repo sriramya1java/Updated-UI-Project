@@ -13,7 +13,7 @@ const state = {
       'lastUpdatedDate': 'October 11, 2018 03:50:48 pm',
       'deletable': false,
       'usedByTableCount': 0,
-      'noteContent': 'This is my second (part2) test note for PEPadfasdf asdf asdf',
+      'noteContent': 'This is my second (part2) test note for PEPadfasdf asdf asdf <ul><li>1</li><li>2</li></ul>',
       'hidden': true,
       'noteString': 'DAVE_TEST_PEP_NOTE2a asdfasdfasdf',
       'programString': 'PEP'
