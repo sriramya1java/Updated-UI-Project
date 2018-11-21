@@ -40,14 +40,6 @@
     margin-left: 30px; /* this is not working at this point */
     margin-right: 30px; /* this is not working at this point */
   }
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
   a {
     color: #42b983;
   }
@@ -55,9 +47,8 @@
 <style lang="scss">
   @import '../src/assets/custom-bootstrap.scss';
   @import '../node_modules/font-awesome/scss/font-awesome.scss';
-  
-</style>
 
+</style>
 <style lang="css">
   @import '../static/material-icons.css';
 </style>

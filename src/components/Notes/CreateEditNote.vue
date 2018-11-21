@@ -91,7 +91,7 @@
     <v-dialog v-model="showPreview" width="400">
       <v-card>
         <v-card-title>Note Preview</v-card-title>
-        <v-card-text v-html="this.noteObj.content"></v-card-text>
+        <v-card-text v-html="this.noteObj.content" class="text-xs-left"></v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn @click="showPreview = false">Ok</v-btn>
