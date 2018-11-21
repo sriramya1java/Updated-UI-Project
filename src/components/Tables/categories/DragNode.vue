@@ -3,7 +3,8 @@
   <div :style='styleObj' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container' @contextmenu.prevent="handler($event, model)">
     <div :class="[isClicked ? 'is-clicked' : '', isHover ? 'is-hover': '']" @mouseover='mouseOver' @mouseout='mouseOut'>
       <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText'>
-        <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><i :class="this.openFolder && model.children.length > 0 ? 'fa fa-minus' : !this.openFolder && model.children.length > 0 ? 'fa fa-plus' : ''"></i></span>
+        <!--<span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><i :class="this.openFolder && model.children.length > 0 ? 'fa fa-minus' : !this.openFolder && model.children.length > 0 ? 'fa fa-plus' : ''"></i></span>-->
+        <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><v-icon small>{{ this.openFolder && model.children.length > 0 ? 'remove' : !this.openFolder && model.children.length > 0 ? 'add' : '' }}</v-icon></span>
         <span class='text pl-2' v-if="showWhat === 'label' && !isEdit" :class="[model.labelOverride ? 'isOveridden' : '', model.hidden ? 'isHidden' : '']">{{model.labelOverride ? model.labelOverride : model.label}}</span>
         <span class='text pl-2' v-if="showWhat === 'id'" :class="model.labelOverride ? 'isOveridden' : ''">{{model.id ? model.id : model.labelOverride ? model.labelOverride : model.label}}</span>
       </div>
