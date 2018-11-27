@@ -72,6 +72,7 @@ export default{
           x.children = []
           x.hidden = false
           x.labelOverride = ''
+          x.active = false
         })
         console.log(this.$store.state.categoriesList)
         // to delete children and key from the list

@@ -2,11 +2,11 @@
   <div>
   <div :style='styleObj' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container' @contextmenu.prevent="handler($event, model)">
     <div :class="[isClicked ? 'is-clicked' : '', isHover ? 'is-hover': '']" @mouseover='mouseOver' @mouseout='mouseOut'>
-      <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText' @click="toggle1($event)">
+      <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText' @click="toggle1()">
         <!--<span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><i :class="this.openFolder && model.children.length > 0 ? 'fa fa-minus' : !this.openFolder && model.children.length > 0 ? 'fa fa-plus' : ''"></i></span>-->
         <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><v-icon small>{{ this.openFolder && model.children.length > 0 ? 'remove' : !this.openFolder && model.children.length > 0 ? 'add' : '' }}</v-icon></span>
-        <span class='text pl-2' v-if="showWhat === 'label' && !isEdit" :class="[model.labelOverride ? 'isOveridden' : '', model.hidden ? 'isHidden' : '', isActive ? 'active' : '']">{{model.labelOverride ? model.labelOverride : model.label}}</span>
-        <span class='text pl-2' v-if="showWhat === 'id'" :class="[model.labelOverride ? 'isOveridden' : '', isActive ? 'active' : '']">{{model.id ? model.id : model.labelOverride ? model.labelOverride : model.label}}</span>
+        <span class='text pl-2' v-if="showWhat === 'label' && !isEdit" :class="[model.labelOverride ? 'isOveridden' : '', model.hidden ? 'isHidden' : '', model.active ? 'active' : '']">{{model.labelOverride ? model.labelOverride : model.label}}</span>
+        <span class='text pl-2' v-if="showWhat === 'id'" :class="[model.labelOverride ? 'isOveridden' : '', model.active ? 'active' : '']">{{model.id ? model.id : model.labelOverride ? model.labelOverride : model.label}}</span>
       </div>
     </div>
     <div class='treeMargin' v-show="openFolder" v-if="childrenVisible || isFolder">
@@ -175,16 +175,16 @@
         console.log('data : ', data)
         // if (data.id !== 'Categories' && this.fromWhere === 'right') {
         if (this.fromWhere === 'right') {
+          this.toggle1()
           this.$refs.menu.open(e, data)
           console.log('model++++++++++++++++++++', data)
           console.log(this.from)
         }
         console.log('model++++++++++++++++++++', data)
       },
-      toggle1: function ($evt) {
-        console.log(this.isActive)
-        this.isActive = !this.isActive
-        console.log(this.isActive)
+      toggle1: function () {
+        let parent = this.categoriesList1[0].children
+        this.setActiveClass(parent, this.model.key)
       },
       toggle () {
         if (this.isFolder) {
@@ -260,7 +260,8 @@
             children: [],
             hidden: false,
             labelOverride: '',
-            key: Math.floor(Math.random() * 1000000000000) + 1
+            key: Math.floor(Math.random() * 1000000000000) + 1,
+            active: false
           })
         }
       },
@@ -276,7 +277,8 @@
             children: [],
             hidden: false,
             labelOverride: '',
-            key: Math.floor(Math.random() * 1000000000000) + 1
+            key: Math.floor(Math.random() * 1000000000000) + 1,
+            active: false
           }
           let resultArray = this.swapArrayElements(array, newNode, fromElementPos)
           console.log('add node above', $event)
@@ -382,6 +384,19 @@
             this.removeFromTree(child.children, childKeyToRemove)
           }
         }
+      },
+      setActiveClass (children, childKeyToRemove) {
+        for (let i = 0; i < children.length; i++) {
+          let child = children[i]
+          // check if the key is equal then set the active i from children
+          child.active = child.key === childKeyToRemove
+          /**
+           * check if child had children and call the function
+           */
+          if (child && child !== null && child !== undefined && child.children !== undefined && child.children.length > 0) {
+            this.setActiveClass(child.children, childKeyToRemove)
+          }
+        }
       }
     },
     beforeCreate () {
@@ -453,6 +468,6 @@
     transform: rotate(90deg);
   }
   .active{
-    background-color: orangered;
+    background-color: #e5e9f2;
   }
 </style>
