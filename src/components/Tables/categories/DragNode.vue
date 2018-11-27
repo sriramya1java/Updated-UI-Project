@@ -62,7 +62,9 @@
         isClicked: false, // The current node is clicked
         isHover: false, // The current node is hover
         styleObj: {
-          opacity: 1
+          opacity: 1,
+          background: '',
+          cursor: 'default'
         },
         showChildren: false,
         from: '',
@@ -328,12 +330,16 @@
       },
       dragOver (e) {
         e.preventDefault()
+        this.styleObj.background = 'grey'
+        this.styleObj.cursor = 'copy'
         rootTree.emitDragOver(this.model, this, e)
         return true
       },
       dragEnter (e) {
         if (this._uid !== fromData._uid) {
-          this.styleObj.opacity = 0.5
+          // this.styleObj.opacity = 0.5
+          this.styleObj.background = 'grey'
+          this.styleObj.cursor = 'copy'
         }
         rootTree.emitDragEnter(this.model, this, e)
       },
@@ -342,12 +348,16 @@
         if (e && e !== undefined && e.clientX) {
           this.dragLeaveWidth = e.clientX
         }
-        this.styleObj.opacity = 1
+        // this.styleObj.opacity = 1
+        this.styleObj.background = ''
+        this.styleObj.cursor = ''
         rootTree.emitDragLeave(this.model, this, e)
       },
       drop: function (e) {
         e.preventDefault()
-        this.styleObj.opacity = 1
+        // this.styleObj.opacity = 1
+        this.styleObj.background = ''
+        this.styleObj.cursor = ''
         // If it is judged that the current node is not allowed to be dropped, return;
         if (!this.allowDrop(this.model, this)) {
           return
