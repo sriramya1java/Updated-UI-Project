@@ -2,11 +2,11 @@
   <div>
   <div :style='styleObj' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container' @contextmenu.prevent="handler($event, model)">
     <div :class="[isClicked ? 'is-clicked' : '', isHover ? 'is-hover': '']" @mouseover='mouseOver' @mouseout='mouseOut'>
-      <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText'>
+      <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText' @click="toggle1($event)">
         <!--<span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><i :class="this.openFolder && model.children.length > 0 ? 'fa fa-minus' : !this.openFolder && model.children.length > 0 ? 'fa fa-plus' : ''"></i></span>-->
         <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><v-icon small>{{ this.openFolder && model.children.length > 0 ? 'remove' : !this.openFolder && model.children.length > 0 ? 'add' : '' }}</v-icon></span>
-        <span class='text pl-2' v-if="showWhat === 'label' && !isEdit" :class="[model.labelOverride ? 'isOveridden' : '', model.hidden ? 'isHidden' : '']">{{model.labelOverride ? model.labelOverride : model.label}}</span>
-        <span class='text pl-2' v-if="showWhat === 'id'" :class="model.labelOverride ? 'isOveridden' : ''">{{model.id ? model.id : model.labelOverride ? model.labelOverride : model.label}}</span>
+        <span class='text pl-2' v-if="showWhat === 'label' && !isEdit" :class="[model.labelOverride ? 'isOveridden' : '', model.hidden ? 'isHidden' : '', isActive ? 'active' : '']">{{model.labelOverride ? model.labelOverride : model.label}}</span>
+        <span class='text pl-2' v-if="showWhat === 'id'" :class="[model.labelOverride ? 'isOveridden' : '', isActive ? 'active' : '']">{{model.id ? model.id : model.labelOverride ? model.labelOverride : model.label}}</span>
       </div>
     </div>
     <div class='treeMargin' v-show="openFolder" v-if="childrenVisible || isFolder">
@@ -73,7 +73,8 @@
         swapOrChild: 'child',
         dragStartWidth: 0,
         dragLeaveWidth: 0,
-        node: {}
+        node: {},
+        isActive: false
       }
     },
     props: {
@@ -171,6 +172,7 @@
         this.node.labelOverride = this.labelOverride
       },
       handler (e, data) {
+        console.log('data : ', data)
         // if (data.id !== 'Categories' && this.fromWhere === 'right') {
         if (this.fromWhere === 'right') {
           this.$refs.menu.open(e, data)
@@ -178,6 +180,11 @@
           console.log(this.from)
         }
         console.log('model++++++++++++++++++++', data)
+      },
+      toggle1: function ($evt) {
+        console.log(this.isActive)
+        this.isActive = !this.isActive
+        console.log(this.isActive)
       },
       toggle () {
         if (this.isFolder) {
@@ -271,7 +278,7 @@
             labelOverride: '',
             key: Math.floor(Math.random() * 1000000000000) + 1
           }
-          var resultArray = this.swapArrayElements(array, newNode, fromElementPos)
+          let resultArray = this.swapArrayElements(array, newNode, fromElementPos)
           console.log('add node above', $event)
           console.log('add node above', data)
           console.log(seconds)
@@ -444,5 +451,8 @@
   }
   .nodeClicked {
     transform: rotate(90deg);
+  }
+  .active{
+    background-color: orangered;
   }
 </style>
