@@ -2,11 +2,13 @@
   <div>
   <div :style='styleObj' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container' @contextmenu.prevent="handler($event, model)">
     <div :class="[isClicked ? 'is-clicked' : '', isHover ? 'is-hover': '']" @mouseover='mouseOver' @mouseout='mouseOut'>
+      <v-icon small :style='styleObj1'>keyboard_tab</v-icon>
       <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText' @click="toggle1()">
         <!--<span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><i :class="this.openFolder && model.children.length > 0 ? 'fa fa-minus' : !this.openFolder && model.children.length > 0 ? 'fa fa-plus' : ''"></i></span>-->
-        <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><v-icon small>{{ this.openFolder && model.children.length > 0 ? 'remove' : !this.openFolder && model.children.length > 0 ? 'add' : '' }}</v-icon></span>
-        <span class='text pl-2' v-if="showWhat === 'label' && !isEdit" :class="[model.labelOverride ? 'isOveridden' : '', model.hidden ? 'isHidden' : '', model.active ? 'active' : '']">{{model.labelOverride ? model.labelOverride : model.label}}</span>
-        <span class='text pl-2' v-if="showWhat === 'id'" :class="[model.labelOverride ? 'isOveridden' : '', model.active ? 'active' : '']">{{model.id ? model.id : model.labelOverride ? model.labelOverride : model.label}}</span>
+        <v-icon small :style='styleObj2'>subdirectory_arrow_right</v-icon>
+        <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><v-icon small v-if="model.children.length > 0 ">{{ this.openFolder ? 'remove' : !this.openFolder ? 'add' : '' }}</v-icon></span>
+        <span class="" v-if="showWhat === 'label' && !isEdit" :class="[model.labelOverride ? 'isOveridden' : '', model.hidden ? 'isHidden' : '', model.active ? 'active' : '', model.children.length === 0 ? 'text pl-4' : 'text pl-2']">{{model.labelOverride ? model.labelOverride : model.label}}</span>
+        <span class="" v-if="showWhat === 'id'" :class="[model.labelOverride ? 'isOveridden' : '', model.active ? 'active' : '', model.children.length === 0 ? 'text pl-4' : 'text pl-2']">{{model.id ? model.id : model.labelOverride ? model.labelOverride : model.label}}</span>
       </div>
     </div>
     <div class='treeMargin' v-show="openFolder" v-if="childrenVisible || isFolder">
@@ -62,7 +64,17 @@
         isClicked: false, // The current node is clicked
         isHover: false, // The current node is hover
         styleObj: {
-          opacity: 1
+          opacity: 1,
+          background: '',
+          cursor: 'default'
+        },
+        styleObj1: {
+          display: 'none',
+          color: ''
+        },
+        styleObj2: {
+          display: 'none',
+          color: ''
         },
         showChildren: false,
         from: '',
@@ -328,12 +340,24 @@
       },
       dragOver (e) {
         e.preventDefault()
+        // this.styleObj.background = 'grey'
+        // this.styleObj.cursor = 'copy'
+        let dragStartWidth = this.$store.state.categories.startDragWidth
+        let dragLeaveWidth = this.dragLeaveWidth
+        if (dragLeaveWidth > dragStartWidth) {
+          this.styleObj2.display = 'block'
+          this.styleObj2.color = 'steelblue'
+        } else {
+          this.styleObj1.display = 'block'
+          this.styleObj1.color = 'steelblue'
+        }
         rootTree.emitDragOver(this.model, this, e)
         return true
       },
       dragEnter (e) {
         if (this._uid !== fromData._uid) {
-          this.styleObj.opacity = 0.5
+          // this.styleObj.opacity = 0.5
+          // this.styleObj.background = 'grey'
         }
         rootTree.emitDragEnter(this.model, this, e)
       },
@@ -342,12 +366,20 @@
         if (e && e !== undefined && e.clientX) {
           this.dragLeaveWidth = e.clientX
         }
-        this.styleObj.opacity = 1
+        // this.styleObj.opacity = 1
+        this.styleObj2.display = 'none'
+        this.styleObj2.color = ''
+        this.styleObj1.display = 'none'
+        this.styleObj1.color = ''
         rootTree.emitDragLeave(this.model, this, e)
       },
       drop: function (e) {
         e.preventDefault()
-        this.styleObj.opacity = 1
+        // this.styleObj.opacity = 1
+        this.styleObj2.display = 'none'
+        this.styleObj2.color = ''
+        this.styleObj1.display = 'none'
+        this.styleObj1.color = ''
         // If it is judged that the current node is not allowed to be dropped, return;
         if (!this.allowDrop(this.model, this)) {
           return
