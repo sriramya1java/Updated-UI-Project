@@ -6,9 +6,9 @@
       <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText' @click="toggle1()">
         <!--<span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><i :class="this.openFolder && model.children.length > 0 ? 'fa fa-minus' : !this.openFolder && model.children.length > 0 ? 'fa fa-plus' : ''"></i></span>-->
         <v-icon small :style='styleObj2'>subdirectory_arrow_right</v-icon>
-        <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><v-icon small>{{ this.openFolder && model.children.length > 0 ? 'remove' : !this.openFolder && model.children.length > 0 ? 'add' : '' }}</v-icon></span>
-        <span class='text pl-2' v-if="showWhat === 'label' && !isEdit" :class="[model.labelOverride ? 'isOveridden' : '', model.hidden ? 'isHidden' : '', model.active ? 'active' : '']">{{model.labelOverride ? model.labelOverride : model.label}}</span>
-        <span class='text pl-2' v-if="showWhat === 'id'" :class="[model.labelOverride ? 'isOveridden' : '', model.active ? 'active' : '']">{{model.id ? model.id : model.labelOverride ? model.labelOverride : model.label}}</span>
+        <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><v-icon small v-if="model.children.length > 0 ">{{ this.openFolder ? 'remove' : !this.openFolder ? 'add' : '' }}</v-icon></span>
+        <span class="" v-if="showWhat === 'label' && !isEdit" :class="[model.labelOverride ? 'isOveridden' : '', model.hidden ? 'isHidden' : '', model.active ? 'active' : '', model.children.length === 0 ? 'text pl-4' : 'text pl-2']">{{model.labelOverride ? model.labelOverride : model.label}}</span>
+        <span class="" v-if="showWhat === 'id'" :class="[model.labelOverride ? 'isOveridden' : '', model.active ? 'active' : '', model.children.length === 0 ? 'text pl-4' : 'text pl-2']">{{model.id ? model.id : model.labelOverride ? model.labelOverride : model.label}}</span>
       </div>
     </div>
     <div class='treeMargin' v-show="openFolder" v-if="childrenVisible || isFolder">
