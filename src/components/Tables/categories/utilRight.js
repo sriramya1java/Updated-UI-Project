@@ -131,23 +131,21 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
       const fromIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(newFrom.key)
       // var objectFoundFrom = array[fromElementPos]
       const toIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(toModel.key)
+      const toElementPos1 = array.map(function (x) { return x.key }).indexOf(toModel.key)
       // var objectFoundTo = array[toElementPos]
-      const resultArray = swapArrayElements(fromParentModel.children, fromIndex, toIndex)
-      const setChildArr = setChild(array, resultArray, fromParentModel.key)
-      $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', setChildArr)
+      if (toIndex > -1) {
+        const resultArray = swapArrayElements(fromParentModel.children, fromIndex, toIndex)
+        const setChildArr = setChild(array, resultArray, fromParentModel.key)
+        $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', setChildArr)
+      } else if (toElementPos1 > -1) {
+        const resultArray1 = swapArrayElements(array, fromIndex, toElementPos1)
+        $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', resultArray1)
+      }
     } else if (action === 'child') {
       fromParentModel.children = fromParentModel.children.filter(
         item => item.key !== newFrom.key
       )
-    } /* else if (action === 'swap' && fromParentModel.children !== undefined && fromParentModel.children.length > 0 && parentIndex === -1 && (parentI === 'gchild')) {
-      const fromIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(newFrom.key)
-        // var objectFoundFrom = array[fromElementPos]
-      const toIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(toModel.key)
-        // var objectFoundTo = array[toElementPos]
-      const resultArray = swapArrayElements(fromParentModel.children, fromIndex, toIndex)
-      const setChildArr = setChild(array, resultArray, fromParentModel.key)
-      $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', setChildArr)
-    } */
+    }
   }
   // Then the from node is added to the last bit in the to node.
   if (!toModel.children) {
