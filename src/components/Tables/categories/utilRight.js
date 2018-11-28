@@ -74,6 +74,8 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
    * checking if the parent is exist in the array if exists it means its from children else parent
    */
   const fromParentModel = from.$parent.model
+  const toParentModel = to.$parent.model
+  console.log('toParentModel', toParentModel)
   const parentIndex = array.map(function (x) { return x.key }).indexOf(fromParentModel.key)
   let parentI = getIndex(array, fromParentModel.key, 'child')
   console.log('parentIndex : ' + parentIndex)
@@ -130,21 +132,30 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
       parentI = 'child'
       const fromIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(newFrom.key)
       const toIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(toModel.key)
+      const toElementPos1 = to.$parent.model.children.map(function (x) { return x.key }).indexOf(toModel.key)
+      console.log('to ELement position', toElementPos1)
       // var objectFoundFrom = array[fromElementPos]
       // var objectFoundTo = array[toElementPos]
-      if (toIndex > -1) {
-        const resultArray = swapArrayElements(fromParentModel.children, fromIndex, toIndex)
-        const setChildArr = setChild(array, resultArray, fromParentModel.key)
-        $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', setChildArr)
-      } else {
-        console.log(toModel)
-        console.log(newFrom)
-        const toElementPos1 = to.$parent.model.children.map(function (x) { return x.key }).indexOf(toModel.key)
+    /* else if (toElementPos1 > -1) {
+        // console.log(toModel)
+        // console.log(newFrom)
         const resultArray1 = to.$parent.model.children.splice(toElementPos1, 0, newFrom)
         // console.log(to.$parent.model.children)
         const resultArray2 = fromParentModel.children.splice(fromIndex, 1)
         const setChildArr1 = setChild(array, resultArray1, to.$parent.model.key)
         // const setChildArr3 = setChild(array, resultArray1, to.$parent.model.key)
+        const setChildArr2 = setChild(setChildArr1, resultArray2, fromParentModel.key)
+        $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', setChildArr2)
+      } */
+      if (toIndex > -1) {
+        const resultArray = swapArrayElements(fromParentModel.children, fromIndex, toIndex)
+        const setChildArr = setChild(array, resultArray, fromParentModel.key)
+        $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', setChildArr)
+      } else if (toElementPos1 > -1) {
+        console.log('this is not allowed')
+        const resultArray1 = to.$parent.model.children.splice(toElementPos1, 0, newFrom)
+        const resultArray2 = fromParentModel.children.splice(fromIndex, 1)
+        const setChildArr1 = setChild(array, resultArray1, to.$parent.model.key)
         const setChildArr2 = setChild(setChildArr1, resultArray2, fromParentModel.key)
         $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', setChildArr2)
       }
