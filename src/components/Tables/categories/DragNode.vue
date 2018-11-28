@@ -330,16 +330,21 @@
       },
       dragOver (e) {
         e.preventDefault()
-        this.styleObj.background = 'grey'
-        this.styleObj.cursor = 'copy'
+        // this.styleObj.background = 'grey'
+        // this.styleObj.cursor = 'copy'
+        let dragStartWidth = this.$store.state.categories.startDragWidth
+        let dragLeaveWidth = this.dragLeaveWidth
+        if (dragLeaveWidth > dragStartWidth) {
+          this.styleObj.background = 'grey'
+          this.styleObj.cursor = 'not-allowed'
+        } else this.styleObj.background = 'blue'
         rootTree.emitDragOver(this.model, this, e)
         return true
       },
       dragEnter (e) {
         if (this._uid !== fromData._uid) {
           // this.styleObj.opacity = 0.5
-          this.styleObj.background = 'grey'
-          this.styleObj.cursor = 'copy'
+          // this.styleObj.background = 'grey'
         }
         rootTree.emitDragEnter(this.model, this, e)
       },
@@ -350,7 +355,6 @@
         }
         // this.styleObj.opacity = 1
         this.styleObj.background = ''
-        this.styleObj.cursor = ''
         rootTree.emitDragLeave(this.model, this, e)
       },
       drop: function (e) {
