@@ -52,11 +52,41 @@
       'delete-component': DeleteNote
     },
     methods: {
+      stringComparator (a, b) {
+        a = a.toLowerCase()
+        b = b.toLowerCase()
+        let alphabet = '-_01234567989abcdefghijklmnopqrstuvwxyz'
+        let length = Math.min(a.length, b.length)
+        for (let i = 0; i < length; i++) {
+          let lowerValueA = alphabet.indexOf(a[i])
+          console.log(lowerValueA)
+          let lowerValueB = alphabet.indexOf(b[i])
+          console.log(lowerValueB)
+          return lowerValueA === lowerValueB ? 0 : (lowerValueA > lowerValueB) ? 1 : -1
+        }
+      },
+      MySort (alphabet, a, b) {
+        return function (a, b) {
+          let indexA = alphabet.indexOf(a[0])
+          let indexB = alphabet.indexOf(b[0])
+          if (indexA === indexB) {
+            // same first character, sort regular
+            if (a < b) {
+              return -1
+            } else if (a > b) {
+              return 1
+            }
+            return 0
+          } else {
+            return indexA - indexB
+          }
+        }
+      },
       createColDefs () {
         return [
           {headerName: 'Edit', field: 'edit', cellRendererFramework: 'edit-component', suppressSorting: true},
           {headerName: 'Program ID', field: 'programString', icons: {sortAscending: '<i class="fa fa-sort-alpha-asc"/>', sortDescending: '<i class="fa fa-sort-alpha-desc"/>'}, sort: 'asc'},
-          {headerName: 'Note Title', field: 'noteString'},
+          {headerName: 'Note Title', field: 'noteString', comparator: this.stringComparator},
           {headerName: 'Contents Preview', field: 'notePreview'},
           {headerName: 'Position', field: 'noteTypeString'},
           {headerName: 'Last Updated By', field: 'lastUpdatedBy'},

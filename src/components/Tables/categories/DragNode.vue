@@ -7,7 +7,7 @@
         <!--<span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><i :class="this.openFolder && model.children.length > 0 ? 'fa fa-minus' : !this.openFolder && model.children.length > 0 ? 'fa fa-plus' : ''"></i></span>-->
         <v-icon small :style='styleObj2'>subdirectory_arrow_right</v-icon>
         <span  v-if="this.fromWhere === 'right'" style="font-size: 0.7rem;" @click="toggle"><v-icon small v-if="model.children.length > 0 ">{{ this.openFolder ? 'remove' : !this.openFolder ? 'add' : '' }}</v-icon></span>
-        <span class="" v-if="showWhat === 'label' && !isEdit" :class="[model.labelOverride ? 'isOveridden' : '', model.hidden ? 'isHidden' : '', model.active ? 'active' : '', model.children.length === 0 ? 'text pl-4' : 'text pl-2']">{{model.labelOverride ? model.labelOverride : model.label}}</span>
+        <span class="" v-if="showWhat === 'label'" :class="[model.labelOverride ? 'isOveridden' : '', model.hidden ? 'isHidden' : '', model.active ? 'active' : '', model.children.length === 0 ? 'text pl-4' : 'text pl-2']">{{model.labelOverride ? model.labelOverride : model.label}}</span>
         <span class="" v-if="showWhat === 'id'" :class="[model.labelOverride ? 'isOveridden' : '', model.active ? 'active' : '', model.children.length === 0 ? 'text pl-4' : 'text pl-2']">{{model.id ? model.id : model.labelOverride ? model.labelOverride : model.label}}</span>
       </div>
     </div>
@@ -152,11 +152,12 @@
        */
       onClick (text, data) {
         alert(`You clicked ${text}!  ${data}! ${this.editingCategory}`)
-        console.log('data=============', data)
+        // console.log('data=============', data)
         // => { foo: 'bar' }
       },
       editCategory (event, data) {
         // let children = this.categoriesList1[0].children
+        // console.log('editing a category--------------', this.showWhat)
         this.node = data
         this.isEdit = true
       },
@@ -184,15 +185,15 @@
         this.node.labelOverride = this.labelOverride
       },
       handler (e, data) {
-        console.log('data : ', data)
+        // console.log('data : ', data)
         // if (data.id !== 'Categories' && this.fromWhere === 'right') {
         if (this.fromWhere === 'right') {
           this.toggle1()
           this.$refs.menu.open(e, data)
-          console.log('model++++++++++++++++++++', data)
-          console.log(this.from)
+          // console.log('model++++++++++++++++++++', data)
+          // console.log(this.from)
         }
-        console.log('model++++++++++++++++++++', data)
+        // console.log('model++++++++++++++++++++', data)
       },
       toggle1: function () {
         let parent = this.categoriesList1[0].children
@@ -242,8 +243,8 @@
       },
       changeType () {
         // The user needs to highlight --> to record the currently clicked node
-        console.log(this.model.children)
-        console.log(this.model.children.length)
+        // console.log(this.model.children)
+        // console.log(this.model.children.length)
         if (this.currentHighlight) {
           nodeClicked = this.model.id
         }
@@ -293,9 +294,9 @@
             active: false
           }
           let resultArray = this.swapArrayElements(array, newNode, fromElementPos)
-          console.log('add node above', $event)
-          console.log('add node above', data)
-          console.log(seconds)
+          // console.log('add node above', $event)
+          // console.log('add node above', data)
+          // console.log(seconds)
           console.log(resultArray)
         }
       },
@@ -328,7 +329,7 @@
         }
       },
       drag (e) {
-        console.log(e.clientX)
+        // console.log(e.clientX)
         fromData = this
         rootTree.emitDrag(this.model, this, e)
       },
@@ -389,7 +390,7 @@
         console.log(this.swapOrChild)
         toData = this
         this.from = fromData.fromWhere
-        console.log('from', this.from)
+        // console.log('from', this.from)
         if (this.from === 'left') {
           exchangeLeftData(rootTree, fromData, toData)
         } else if (this.from === 'right') {

@@ -131,10 +131,10 @@ export default{
       // console.log('dragOverHandler: ', model, component, e)
     },
     dragEndHandler (model, component, e) {
-      console.log('dragEndHandler: ', model, component, e)
+      // console.log('dragEndHandler: ', model, component, e)
     },
     dropHandler (model, component, e) {
-      console.log('dropHandler: ', model, component, e)
+      // console.log('dropHandler: ', model, component, e)
       const list = model.children
       // change the key
       if (list && list !== undefined) {

@@ -50,5 +50,5 @@
 
 </style>
 <style lang="css">
-  @import '../static/material-icons.css';
+  @import '../node_modules/material-design-icons-iconfont/dist/material-design-icons.css';
 </style>

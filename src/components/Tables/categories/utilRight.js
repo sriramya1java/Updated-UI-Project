@@ -62,13 +62,36 @@ const isLinealRelation = (from, to) => {
  * @param array
  * @param action
  */
+const traverseCategories = (children, childKeyToRemove) => {
+  for (let i = 0; i < children.length; i++) {
+    let tableChild = children[i]
+    // Do stuff
+    if (tableChild.key === childKeyToRemove) {
+      return true
+    }
+    if (tableChild && tableChild !== null && tableChild !== undefined && tableChild.children !== undefined && tableChild.children.length > 0) {
+      traverseCategories(tableChild.children, childKeyToRemove)
+    }
+  }
+}
 const exchangeRightData = (rootCom, from, to, array, action) => {
   console.log('action : ', action)
   // If the drag node is the same as the dragged node，return;
   if (from._uid === to._uid) {
     return
   }
-
+  const prentToChild = traverseCategories(from.model.children, to.model.key)
+  if (prentToChild) {
+    console.log('this is not allowed')
+    return
+  }
+  console.log(traverseCategories(from.model.children, to.model.key))
+  console.log(from.model.key)
+  console.log(to.model.key)
+  console.log('dragging node from--------------', from)
+  console.log('dragging node to---------------', to)
+  console.log('dragging node from children--------------', from.$children)
+  console.log('dragging node to children---------------', to.$children)
   const newFrom = Object.assign({}, from.model)
   /**
    * checking if the parent is exist in the array if exists it means its from children else parent
@@ -78,15 +101,15 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
   console.log('toParentModel', toParentModel)
   const parentIndex = array.map(function (x) { return x.key }).indexOf(fromParentModel.key)
   let parentI = getIndex(array, fromParentModel.key, 'child')
-  console.log('parentIndex : ' + parentIndex)
+  // console.log('parentIndex : ' + parentIndex)
   console.log('parentI : ' + parentI)
   // If the two are parent-child relationships. Move the from node to the to node level and drop it to the next one
   if (hasInclude(from, to)) {
     // If "parent" is the topmost node (the outermost data in the node array)
     const tempParent = to.$parent
-    console.log('tempParent', tempParent)
+    // console.log('tempParent', tempParent)
     const toModel = to.model
-    console.log('toModel', toModel)
+    // console.log('toModel', toModel)
     if (tempParent.$options._componentTag === 'vue-drag-tree') {
       // Add the from node to the root array
       // tempParent.newData.push(newFrom)
@@ -133,7 +156,7 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
       const fromIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(newFrom.key)
       const toIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(toModel.key)
       const toElementPos1 = to.$parent.model.children.map(function (x) { return x.key }).indexOf(toModel.key)
-      console.log('to ELement position', toElementPos1)
+      // console.log('to ELement position', toElementPos1)
       // var objectFoundFrom = array[fromElementPos]
       // var objectFoundTo = array[toElementPos]
     /* else if (toElementPos1 > -1) {
@@ -177,10 +200,12 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
     var toElementPos = array.map(function (x) { return x.key }).indexOf(toModel.key)
     // var objectFoundTo = array[toElementPos]
     var resultArray = swapArrayElements(array, fromElementPos, toElementPos)
-    console.log(resultArray)
+    // console.log(resultArray)
     $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', resultArray)
   } else if (action === 'child') {
     toModel.children = toModel.children.concat([newFrom])
+    // console.log(isLinealRelation(from, to))
+    // console.log('after movienggggggg', toModel.children)
   }
 }
 
