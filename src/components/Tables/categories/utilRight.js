@@ -53,7 +53,24 @@ const isLinealRelation = (from, to) => {
 
   return status
 }
-
+// flattens all the children objects into an array that are present in the hierarchy.
+const flat = (array) => {
+  var result = []
+  array.forEach(function (a) {
+    result.push(a)
+    if (Array.isArray(a.children)) {
+      result = result.concat(flat(a.children))
+    }
+  })
+  return result
+}
+// checks if the element is present in the given array.
+const childIsPresent = (array, toObject) => {
+  let arrayFlat = flat(array)
+  console.log(arrayFlat)
+  if (arrayFlat.some(function (element) { return element === toObject })) return true
+  else return false
+}
 /**
  * Exchange two nodes of data
  * @param rootCom Root component（vue-drag-tree.vue）
@@ -62,37 +79,19 @@ const isLinealRelation = (from, to) => {
  * @param array
  * @param action
  */
-const traverseCategories = (children, childKeyToRemove) => {
-  for (let i = 0; i < children.length; i++) {
-    let tableChild = children[i]
-    // Do stuff
-    if (tableChild.key === childKeyToRemove) {
-      return true
-    }
-    if (tableChild && tableChild !== null && tableChild !== undefined && tableChild.children !== undefined && tableChild.children.length > 0) {
-      traverseCategories(tableChild.children, childKeyToRemove)
-    }
-  }
-}
 const exchangeRightData = (rootCom, from, to, array, action) => {
   console.log('action : ', action)
   // If the drag node is the same as the dragged node，return;
   if (from._uid === to._uid) {
     return
   }
-  const prentToChild = traverseCategories(from.model.children, to.model.key)
-  if (prentToChild) {
-    console.log('this is not allowed')
+  const newFrom = Object.assign({}, from.model)
+  const statePresent = childIsPresent(newFrom.children, to.model)
+  // If the to node is in the children hierarchy of from node. return;
+  if (statePresent) {
+    console.log('this is not possible')
     return
   }
-  console.log(traverseCategories(from.model.children, to.model.key))
-  console.log(from.model.key)
-  console.log(to.model.key)
-  console.log('dragging node from--------------', from)
-  console.log('dragging node to---------------', to)
-  console.log('dragging node from children--------------', from.$children)
-  console.log('dragging node to children---------------', to.$children)
-  const newFrom = Object.assign({}, from.model)
   /**
    * checking if the parent is exist in the array if exists it means its from children else parent
    */
