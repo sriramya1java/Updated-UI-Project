@@ -11,7 +11,7 @@
           <v-btn :to="{ name: 'edittable', params: { datasetString: 'new', tableString: 'new' }, query: {debug: true }}" slot="activator" @click="createNewTable">Create a New Table</v-btn>
           <span>Click to Create a New Table</span>
         </v-tooltip>
-        <v-btn :disabled="!checked"  @click='fileDelivery'>
+        <v-btn :disabled="!checked"  @click='fileDelivery' color="primary">
           Create Delivery File
         </v-btn>
         <v-select

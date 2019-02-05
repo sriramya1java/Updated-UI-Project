@@ -43,8 +43,8 @@
               <v-icon>expand_more</v-icon>
             </v-btn><br>
             <v-dialog v-model=dialog width="1000"  fullscreen transition="dialog-bottom-transition" :disabled="valid = this.verticalDimensionsSelected.length === 0">
-              <v-btn slot="activator" color="grey" dark icon @click="categoriesApiCall('vertical')" :disabled="valid = this.verticalDimensionsSelected.length === 0">
-                <v-icon>edit</v-icon>
+              <v-btn slot="activator" color="primary" icon @click="categoriesApiCall('vertical')" :disabled="valid = this.verticalDimensionsSelected.length === 0">
+                <v-icon color="primary">edit</v-icon>
               </v-btn>
               <v-card>
                 <v-card-title class="headline grey" primary-title dense>
