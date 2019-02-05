@@ -43,6 +43,11 @@
   a {
     color: #42b983;
   }
+
+  .theme--dark.v-btn.v-btn--disabled {
+    background-color: rgba(0,0,0,.12)!important;
+  }
+
 </style>
 <style lang="scss">
   @import '../src/assets/custom-bootstrap.scss';
