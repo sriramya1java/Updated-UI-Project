@@ -53,9 +53,10 @@ const isLinealRelation = (from, to) => {
 
   return status
 }
-// flattens all the children objects into an array that are present in the hierarchy.
+
+// Flattens all the children objects into an array that are present in the hierarchy.
 const flat = (array) => {
-  var result = []
+  let result = []
   array.forEach(function (a) {
     result.push(a)
     if (Array.isArray(a.children)) {
@@ -64,13 +65,14 @@ const flat = (array) => {
   })
   return result
 }
-// checks if the element is present in the given array.
+
+// Checks if the element is present in the given array.
 const childIsPresent = (array, toObject) => {
   let arrayFlat = flat(array)
-  console.log(arrayFlat)
   if (arrayFlat.some(function (element) { return element === toObject })) return true
   else return false
 }
+
 /**
  * Exchange two nodes of data
  * @param rootCom Root component（vue-drag-tree.vue）
@@ -85,31 +87,29 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
   if (from._uid === to._uid) {
     return
   }
+
   const newFrom = Object.assign({}, from.model)
-  const statePresent = childIsPresent(newFrom.children, to.model)
+  const isSubset = childIsPresent(newFrom.children, to.model)
   // If the to node is in the children hierarchy of from node. return;
-  if (statePresent) {
-    console.log('this is not possible')
+  if (isSubset) {
     return
   }
   /**
    * checking if the parent is exist in the array if exists it means its from children else parent
    */
   const fromParentModel = from.$parent.model
-  const toParentModel = to.$parent.model
-  console.log('toParentModel', toParentModel)
   const parentIndex = array.map(function (x) { return x.key }).indexOf(fromParentModel.key)
   let parentI = getIndex(array, fromParentModel.key, 'child')
-  // console.log('parentIndex : ' + parentIndex)
+  console.log('parentIndex : ' + parentIndex)
   console.log('parentI : ' + parentI)
   // If the two are parent-child relationships. Move the from node to the to node level and drop it to the next one
   if (hasInclude(from, to)) {
     // If "parent" is the topmost node (the outermost data in the node array)
+    console.log('parent is the top most node')
     const tempParent = to.$parent
-    // console.log('tempParent', tempParent)
     const toModel = to.model
-    // console.log('toModel', toModel)
     if (tempParent.$options._componentTag === 'vue-drag-tree') {
+      console.log('parent is the top most node in component tag')
       // Add the from node to the root array
       // tempParent.newData.push(newFrom)
       // Remove the from node information in to;
@@ -121,7 +121,12 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
     // First remove the from node information in to;
     toModel.children = toModel.children.filter(item => item.key !== newFrom.key)
     // Add the from node to the to level.
+    console.log(typeof (toParentModel.children))
+    console.log(typeof (toParentModel))
+    console.log(toParentModel.children)
     toParentModel.children = toParentModel.children.concat([newFrom])
+    const fromIndex = toParentModel.children.map(function (x) { return x.key }).indexOf(newFrom.key)
+    toParentModel.children = swapArrayElements(toParentModel.children, fromIndex, 0)
     return
   }
 
@@ -132,9 +137,10 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
     fromParentModel.children = fromParentModel.children.filter(item => item.key !== newFrom.key)
     // Then the from node is added to the last bit in the to node.
     toModel.children = toModel.children.concat([newFrom])
+    const fromIndex = toModel.children.map(function (x) { return x.key }).indexOf(newFrom.key)
+    toModel.children = swapArrayElements(toModel.children, fromIndex, 0)
     return
   }
-
   // Two nodes (wireless relationship), throw the from node into the to node.
   // const fromParentModel = from.$parent.model
   const toModel = to.model
@@ -153,28 +159,16 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
     if (action === 'swap' && fromParentModel.children !== undefined && fromParentModel.children.length > 0 && parentI === 'gchild') {
       parentI = 'child'
       const fromIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(newFrom.key)
-      const toIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(toModel.key)
-      const toElementPos1 = to.$parent.model.children.map(function (x) { return x.key }).indexOf(toModel.key)
-      // console.log('to ELement position', toElementPos1)
       // var objectFoundFrom = array[fromElementPos]
+      const toIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(toModel.key)
       // var objectFoundTo = array[toElementPos]
-    /* else if (toElementPos1 > -1) {
-        // console.log(toModel)
-        // console.log(newFrom)
-        const resultArray1 = to.$parent.model.children.splice(toElementPos1, 0, newFrom)
-        // console.log(to.$parent.model.children)
-        const resultArray2 = fromParentModel.children.splice(fromIndex, 1)
-        const setChildArr1 = setChild(array, resultArray1, to.$parent.model.key)
-        // const setChildArr3 = setChild(array, resultArray1, to.$parent.model.key)
-        const setChildArr2 = setChild(setChildArr1, resultArray2, fromParentModel.key)
-        $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', setChildArr2)
-      } */
+      const toElementPos1 = to.$parent.model.children.map(function (x) { return x.key }).indexOf(toModel.key)
+      console.log(toElementPos1)
       if (toIndex > -1) {
         const resultArray = swapArrayElements(fromParentModel.children, fromIndex, toIndex)
         const setChildArr = setChild(array, resultArray, fromParentModel.key)
         $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', setChildArr)
       } else if (toElementPos1 > -1) {
-        console.log('this is not allowed')
         const resultArray1 = to.$parent.model.children.splice(toElementPos1, 0, newFrom)
         const resultArray2 = fromParentModel.children.splice(fromIndex, 1)
         const setChildArr1 = setChild(array, resultArray1, to.$parent.model.key)
@@ -185,7 +179,15 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
       fromParentModel.children = fromParentModel.children.filter(
         item => item.key !== newFrom.key
       )
-    }
+    } /* else if (action === 'swap' && fromParentModel.children !== undefined && fromParentModel.children.length > 0 && parentIndex === -1 && (parentI === 'gchild')) {
+      const fromIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(newFrom.key)
+        // var objectFoundFrom = array[fromElementPos]
+      const toIndex = fromParentModel.children.map(function (x) { return x.key }).indexOf(toModel.key)
+        // var objectFoundTo = array[toElementPos]
+      const resultArray = swapArrayElements(fromParentModel.children, fromIndex, toIndex)
+      const setChildArr = setChild(array, resultArray, fromParentModel.key)
+      $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', setChildArr)
+    } */
   }
   // Then the from node is added to the last bit in the to node.
   if (!toModel.children) {
@@ -199,12 +201,12 @@ const exchangeRightData = (rootCom, from, to, array, action) => {
     var toElementPos = array.map(function (x) { return x.key }).indexOf(toModel.key)
     // var objectFoundTo = array[toElementPos]
     var resultArray = swapArrayElements(array, fromElementPos, toElementPos)
-    // console.log(resultArray)
+    console.log(resultArray)
     $store.commit('categories/SET_CATEGORIES_LIST_CHILDREN', resultArray)
   } else if (action === 'child') {
     toModel.children = toModel.children.concat([newFrom])
-    // console.log(isLinealRelation(from, to))
-    // console.log('after movienggggggg', toModel.children)
+    const fromIndex = toModel.children.map(function (x) { return x.key }).indexOf(newFrom.key)
+    toModel.children = swapArrayElements(toModel.children, fromIndex, 0)
   }
 }
 

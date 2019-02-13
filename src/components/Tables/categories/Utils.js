@@ -64,6 +64,7 @@ const exchangeLeftData = (rootCom, from, to) => {
   if (from._uid === to._uid) {
     return
   }
+  console.log(from)
   const newFrom = Object.assign({}, from.model)
     // If the two are parent-child relationships. Move the from node to the to node level and drop it to the next one
   if (hasInclude(from, to)) {
@@ -85,6 +86,8 @@ const exchangeLeftData = (rootCom, from, to) => {
     toModel.children = toModel.children.filter(item => item.id !== newFrom.id)
       // Add the from node to the to level.
     toParentModel.children = toParentModel.children.concat([newFrom])
+    const fromIndex = toParentModel.children.map(function (x) { return x.key }).indexOf(newFrom.key)
+    toParentModel.children = swapArrayElements(toParentModel.children, fromIndex, 0)
     return
   }
 
@@ -94,6 +97,8 @@ const exchangeLeftData = (rootCom, from, to) => {
     const toModel = to.model
       // Then the from node is added to the last bit in the to node.
     toModel.children = toModel.children.concat([newFrom])
+    const fromIndex = toModel.children.map(function (x) { return x.key }).indexOf(newFrom.key)
+    toModel.children = swapArrayElements(toModel.children, fromIndex, 0)
     return
   }
 
@@ -106,7 +111,17 @@ const exchangeLeftData = (rootCom, from, to) => {
     toModel.children = [newFrom]
   } else {
     toModel.children = toModel.children.concat([newFrom])
+    const fromIndex = toModel.children.map(function (x) { return x.key }).indexOf(newFrom.key)
+    toModel.children = swapArrayElements(toModel.children, fromIndex, 0)
   }
+}
+
+var swapArrayElements = function (a, x, y) {
+  if (a.length === 1) return a
+  // a.splice(y, 1, a.splice(x, 1, a[y])[0])
+  // return a
+  a.splice(y, 0, a.splice(x, 1)[0])
+  return a
 }
 
 export { findRoot, exchangeLeftData }
