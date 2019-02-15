@@ -1,5 +1,5 @@
 <template>
-  <div class="v-context"
+  <div class="v-context show"
        v-show="show"
        :style="style"
        tabindex="-1"
@@ -12,6 +12,8 @@
 </template>
 
 <script>
+  /* eslint-disable indent,semi */
+
   export default {
     props: {
       /**
@@ -101,7 +103,8 @@
         console.log(this.data)
         this.show = true
         this.$nextTick(() => {
-          this.positionMenu(event.clientY, event.clientX)
+          // this.positionMenu(event.clientY, event.clientX)
+          this.positionMenu(event)
           this.$el.focus()
         })
       },
@@ -111,18 +114,40 @@
        * @param {number} top
        * @param {number} left
        */
-      positionMenu (top, left) {
-        const largestHeight = window.innerHeight - this.$el.offsetHeight - 25
+      positionMenu (event) {
+        /* const largestHeight = window.innerHeight - this.$el.offsetHeight - 25
         const largestWidth = window.innerWidth - this.$el.offsetWidth - 25
         if (top > largestHeight) {
           top = largestHeight
         }
         if (left > largestWidth) {
           left = largestWidth
-        }
-        this.top = top
-        this.left = left
+        } */
+        console.log(this.mouseY(event) + 'px')
+        console.log(this.mouseX(event) + 'px')
+        this.top = this.mouseY(event) - this.$el.offsetHeight - 21
+        this.left = this.mouseX(event) - this.$el.offsetWidth - 52
       },
+
+   mouseX (evt) {
+    if (evt.pageX) {
+      return evt.pageX;
+    } else if (evt.clientX) {
+      return evt.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft)
+    } else {
+      return null;
+    }
+  },
+
+   mouseY (evt) {
+    if (evt.pageY) {
+      return evt.pageY;
+    } else if (evt.clientY) {
+      return evt.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
+    } else {
+      return null;
+    }
+  },
       /**
        * Remove the scroll event listener to close the context menu.
        */
@@ -163,7 +188,7 @@
     display: block;
     margin: 0;
     padding: 0;
-    position: fixed;
+    position: absolute;
     width: 200px;
     z-index: 99999;
     ul {
@@ -181,10 +206,17 @@
           background: $blue600;
           color: $gray98;
           width: 100%;
-          color: light
         }
       }
     }
+  }
+  .show {
+    z-index:1000;
+    position: absolute;
+    border: 1px solid blue;
+    padding: 2px;
+    display: block;
+    margin-bottom: 3px;
   }
 </style>
 

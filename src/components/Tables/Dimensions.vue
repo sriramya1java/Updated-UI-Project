@@ -42,7 +42,7 @@
                 <v-btn slot="activator" color="grey" dark icon v-on:click="moveVerticalAxisElement(1)">
                   <v-icon>expand_more</v-icon>
                 </v-btn><br>
-                <v-dialog v-model=dialog width="1000"  fullscreen transition="dialog-bottom-transition" :disabled="valid = this.verticalDimensionsSelected.length === 0">
+                <v-dialog v-model=dialog width="1000"  transition="dialog-bottom-transition" :disabled="valid = this.verticalDimensionsSelected.length === 0">
                   <v-btn slot="activator" color="primary" dark icon @click="categoriesApiCall('vertical')" :disabled="valid = this.verticalDimensionsSelected.length === 0">
                     <v-icon>edit</v-icon>
                   </v-btn>
